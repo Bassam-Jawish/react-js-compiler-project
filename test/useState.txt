@@ -1,0 +1,16 @@
+import React, { useState } from 'react';
+
+function Counter() {
+  // Initializing state with a count value and a function to update it
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      {/* Button to increment count */}
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;

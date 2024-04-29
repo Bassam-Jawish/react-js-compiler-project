@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import './App.css'; // Import your CSS file for styling
+import productss1Image from './assets/product1.jpeg';
+import productss3Image from './assets/product3.jpg';
+import productss4Image from './assets/product4.jpeg';
+
+const products = [
+  {
+    id: 1,
+    name: 'Product 1',
+    image: productss1Image,
+    description: 'Description for Product 1',
+  },
+  {
+    id: 2,
+    name: 'Product 2',
+    image: productss3Image,
+    description: 'Description for Product 2',
+  },
+  {
+    id: 3,
+    name: 'Product 3',
+    image: productss4Image,
+    description: 'Description for Product 3',
+  },
+  // Add more products as needed
+];
+
+const NavigationBar = () => {
+  return (
+    <nav className="navigation">
+      <h1>Product Catalog</h1>
+      {/* Add more navigation items if needed */}
+    </nav>
+  );
+};
+
+const ProductList = ({ onItemClick }) => {
+  return (
+    <div className="product-list">
+      {products.map((product) => (
+        <div key={product.id} className="product-item" onClick={() => onItemClick(product)}>
+          <img src={product.image} alt={product.name} className="product-image" />
+          <p className="product-name">{product.name}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ProductDetails = ({ selectedProduct }) => {
+  return (
+    <div className="product-details">
+      {selectedProduct ? (
+        <>
+          <h2 className="product-details-title">{selectedProduct.name}</h2>
+          <img src={selectedProduct.image} alt={selectedProduct.name} className="product-details-image" />
+          <p className="product-details-description">{selectedProduct.description}</p>
+        </>
+      ) : (
+        <p className="product-details-placeholder">Select a product to view details</p>
+      )}
+    </div>
+  );
+};
+
+const Sidebar = () => {
+  // You can add content or links for the sidebar here
+  return (
+    <aside className="sidebar">
+      <h2>Sidebar</h2>
+      {/* Add content */}
+    </aside>
+  );
+};
+
+const App = () => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleItemClick = (product) => {
+    setSelectedProduct(product);
+  };
+
+  /*useEffect(() => {
+    console.log('d');
+  }, [selectedProduct]);*/
+
+  // const myRef = useRef<HTMLInputElement>(null);
+  return (
+    <div className="app">
+      <NavigationBar />
+      <div className="content">
+        <Sidebar />
+        <div className="catalog">
+          <ProductList onItemClick={handleItemClick} />
+          <ProductDetails selectedProduct={selectedProduct} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;

@@ -1,0 +1,7 @@
+// React.createElement usage
+const element = React.createElement(
+  'div',
+  {},
+  React.createElement('h2', {}, "Let's get started!"),
+  React.createElement(Expenses, { items: expenses })
+);

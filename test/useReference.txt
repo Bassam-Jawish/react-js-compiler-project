@@ -1,0 +1,21 @@
+import React, { useRef, useEffect } from 'react';
+
+function FocusInput() {
+  // Creating a ref to input element
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    // Focus on the input element when the component mounts
+    inputRef.current.focus();
+  }, []);
+
+  return (
+    <div>
+      {/* Input element */}
+      <input ref={inputRef} type="text" />
+      <button onClick={() => inputRef.current.focus()}>Focus Input</button>
+    </div>
+  );
+}
+
+export default FocusInput;

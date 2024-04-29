@@ -1,0 +1,53 @@
+import './App.css';
+import React from 'react';
+import ProductCard from './ProductCard';
+import { useState } from 'react';
+const products=[
+  {id:1,name:'First product',image:'image url',description:'This is First product.'},
+  {id:2,name:'Second product',image:'image url',description:'This is Second product.'},
+  {id:3,name:'Third product',image:'image url',description:'This is Third product.'}
+]
+
+function App() {
+  const [expandedProduct,setExpandedProduct] = useState(null)
+  const handleProductClick=(product)=>{
+    setExpandedProduct(product)
+  }
+
+  return (
+    <div className="App">
+    {
+      products.length >0
+      ?
+      (products.map(product =>
+        <div key={product.id} className='product'>
+          <ProductCard product={product} onProductClick={handleProductClick} />
+        </div>
+      ))
+      :
+
+        <div className="empty">
+        <h2>No products found.</h2>
+        </div>
+    }
+    {
+      expandedProduct==null?
+
+        <div>
+        <h2>No expanded product </h2>
+        </div>
+
+      :
+      (
+        <div className="expanded-product">
+           <h2>{expandedProduct.name}</h2>
+           <img src={expandedProduct.image} alt={expandedProduct.name} />
+           <p>{expandedProduct.description}</p>
+         </div>
+      )
+    }
+  </div>
+    );
+}
+
+export default App;
