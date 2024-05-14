@@ -1,0 +1,2 @@
+Semantic Check : 
+Error: Variable 'y' is already defined in scope 2
