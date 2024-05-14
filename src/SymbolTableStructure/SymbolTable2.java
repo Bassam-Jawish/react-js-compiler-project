@@ -1,3 +1,88 @@
+
+package SymbolTableStructure;
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
+public class SymbolTable2 {
+
+    private Map<String, Stack<Object[]>> symbolTable; // Storing [value, scopeId]
+
+    public SymbolTable2() {
+        this.symbolTable = new HashMap<>();
+    }
+
+    // Enter a new scope
+    public void enterScope() {
+        symbolTable.putIfAbsent(String.valueOf(symbolTable.size()), new Stack<>());
+    }
+
+    // Exit the current scope
+    public void exitScope() {
+        symbolTable.remove(String.valueOf(symbolTable.size() - 1));
+    }
+
+    // Add a variable to the symbol table
+    public void addVariable(String variableName, Object value) {
+        if (!symbolTable.containsKey(String.valueOf(symbolTable.size() - 1))) {
+            enterScope();
+        }
+        symbolTable.get(String.valueOf(symbolTable.size() - 1)).push(new Object[]{variableName,value});
+    }
+
+    // Update the value of a variable
+    public void updateVariable(String variableName, Object newValue) {
+        for (Map.Entry<String, Stack<Object[]>> entry : symbolTable.entrySet()) {
+            Stack<Object[]> stack = entry.getValue();
+            for (Object[] obj : stack) {
+                if (obj[0].equals(variableName)) {
+                    obj[0] = newValue;
+                    return;
+                }
+            }
+        }
+    }
+
+    // Get the value of a variable
+    public Object getValue(String variableName) {
+        for (Map.Entry<String, Stack<Object[]>> entry : symbolTable.entrySet()) {
+            Stack<Object[]> stack = entry.getValue();
+            for (Object[] obj : stack) {
+                if (obj[0].equals(variableName)) {
+                    return obj[1];
+                }
+            }
+        }
+        return null;
+    }
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Symbol Table:\n");
+        stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+        stringBuilder.append(String.format("| %-10s | %-15s | %-65s | \n", "Scope Id", "Variable Name", "Value"));
+        stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+
+
+        for (Map.Entry<String, Stack<Object[]>> scopeEntry : symbolTable.entrySet()) {
+            String scopeName = scopeEntry.getKey();
+            Stack<Object[]> variables = scopeEntry.getValue();
+
+            for (Object[] variable : variables) {
+                String value = (String) variable[1]; // Variable value
+                Object variableName = variable[0]; // variableName
+
+                stringBuilder.append(String.format("| %-10s | %-15s | %-65s | \n", scopeName, variableName, value));
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+}
+
+/*
 package SymbolTableStructure;
 
 import java.util.HashMap;
@@ -114,3 +199,4 @@ public class SymbolTable2 {
 
 
 }
+*/

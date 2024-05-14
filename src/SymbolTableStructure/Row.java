@@ -2,10 +2,19 @@ package SymbolTableStructure;
 
 public class Row {
     private String variableName;
+
+    private String type;
     private String value;
-    private  int scope_id = 0;
+    private int scopeId = 0;
 
     public Row() {}
+
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getVariableName() {
         return variableName;
@@ -22,12 +31,12 @@ public class Row {
         this.value = value;
     }
 
-    public int getScope_id() {
-        return scope_id;
+    public int getScopeId() {
+        return scopeId;
     }
 
-    public void setScope_id(int scope_id) {
-        this.scope_id = scope_id;
+    public void setScopeid(int scopeId) {
+        this.scopeId = scopeId;
     }
 
 }

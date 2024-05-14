@@ -2,18 +2,40 @@ package SymbolTableStructure;
 
 import AST.Space;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SymbolTable {
-    List <Row> rows = new ArrayList<>();
+    private List<Row> rows = new ArrayList<>();
+
     public List<Row> getRows() {
         return rows;
     }
 
-    public  void setRows(List<Row> rows) {
+    public void setRows(List<Row> rows) {
         this.rows = rows;
+    }
+
+    private int currentScopeId = 0;
+
+    public int getScopeId() {
+        return currentScopeId;
+    }
+
+    public void setScopeId(int scopeId) {
+        this.currentScopeId = scopeId;
+    }
+
+    public void enterScope() {
+        currentScopeId++;
+    }
+
+    public void exitScope() {
+        currentScopeId--;
+    }
+
+
+    public void addVariable(Row row) {
+        rows.add(row);
     }
 
     @Override
@@ -21,10 +43,10 @@ public class SymbolTable {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Symbol Table:\n");
         stringBuilder.append("*").append("*".repeat(100)).append("*\n");
-        stringBuilder.append(String.format("| %-12s | %-15s | %-60s |\n", "Scope Id","Variable Name","Value"));
+        stringBuilder.append(String.format("| %-12s | %-15s | %-60s |\n", "Scope Id", "Variable Name", "Value"));
         stringBuilder.append("*").append("*".repeat(100)).append("*\n");
 
-        // Find the maximum width needed for the third column
+        // Find the maximum width needed for the fourth column
         int maxThirdColumnWidth = 0;
         for (Row row : rows) {
             if (row != null) {
@@ -42,7 +64,7 @@ public class SymbolTable {
                     String valueLine = (i < valueLines.length) ? valueLines[i] : "";
                     String variableName = (i == 0) ? row.getVariableName() : "";
 
-                    stringBuilder.append(String.format("| %-12s | %-15s | %-60s | \n", (i==0)? row.getScope_id():"",variableName, valueLine + " ".repeat(maxThirdColumnWidth - valueLine.length())));
+                    stringBuilder.append(String.format("| %-12s | %-15s | %-60s | \n", (i == 0) ? row.getScopeId() : "", variableName, valueLine + " ".repeat(maxThirdColumnWidth - valueLine.length())));
                 }
 
                 stringBuilder.append("*").append("*".repeat(100)).append("*\n");

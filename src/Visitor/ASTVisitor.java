@@ -27,12 +27,24 @@ import java.util.List;
 
 public class ASTVisitor extends ReactjsParserBaseVisitor {
 
+    private SymbolTable2 s;
+
+    public ASTVisitor() {
+        this.s = new SymbolTable2();
+    }
+
+
+
     public SymbolTable symbolTable = new SymbolTable();
-    public SymbolTable2 s = new SymbolTable2();
+
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
+    }
 
     //-------------------- Program ---------------------
     @Override
     public Program visitProgram(ReactjsParser.ProgramContext ctx) {
+
         Program p = new Program();
         List<Statement> st = new ArrayList<>();
         for (ReactjsParser.StatementContext stat : ctx.statement()) {
@@ -131,6 +143,8 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Statement visitBlock(ReactjsParser.BlockContext ctx) {
+        symbolTable.enterScope();
+        s.enterScope();
         BlockStatement blockStatement = new BlockStatement();
         List<Statement> st = new ArrayList<>();
         for (ReactjsParser.StatementContext state : ctx.statement()) {
@@ -139,6 +153,8 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             }
         }
         blockStatement.setStatements(st);
+        symbolTable.exitScope();
+        s.exitScope();
         return blockStatement;
     }
 
@@ -307,9 +323,9 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     //-------------------- ClassDeclaration ------------------------
 
-
     @Override
     public Statement visitClassDeclaration(ReactjsParser.ClassDeclarationContext ctx) {
+        symbolTable.enterScope();
         ClassDeclaration classDeclaration = new ClassDeclaration();
 
         String className = ctx.IDENTIFIER().toString();
@@ -327,16 +343,17 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
         classDeclaration.setStatements(st);
 
-
         // Symbol Table
         Row row = new Row();
+        row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(classDeclaration.getClassName());
         row.setValue(classDeclaration.getStatements().toString());
-        this.symbolTable.getRows().add(row);
+        this.symbolTable.addVariable(row);
 
         // Symbol Table 2
         s.addVariable(classDeclaration.getClassName(), classDeclaration.getStatements().toString());
 
+        symbolTable.exitScope();
         return classDeclaration;
     }
 
@@ -354,6 +371,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             }
         }
         variableStatement.setVariableDeclarations(declarations);
+
         return variableStatement;
     }
 
@@ -382,12 +400,14 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         Expression expression = (Expression) visit(ctx.expression());
         variableDeclarationConst.setExpression(expression);
 
+        // Symbol Table
         Row row = new Row();
+        row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(variableDeclarationConst.getVariableType().toString());
         row.setValue(variableDeclarationConst.getExpression().toString());
-        row.setScope_id(Space.currentValue);
-        this.symbolTable.getRows().add(row);
-
+        this.symbolTable.addVariable(row);
+        
+        // Symbol Table 2
         s.addVariable(variableDeclarationConst.getVariableType().toString(), variableDeclarationConst.getExpression().toString());
         return variableDeclarationConst;
     }
@@ -403,14 +423,15 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
             // Symbol Table
             Row row = new Row();
+            row.setScopeid(symbolTable.getScopeId());
             row.setVariableName(variableDeclaration.getVariableType().toString());
+            row.setType("");
             row.setValue(variableDeclaration.getExpression().toString());
-            this.symbolTable.getRows().add(row);
+            this.symbolTable.addVariable(row);
 
             // Symbol Table 2
             s.addVariable(variableDeclaration.getVariableType().toString(), variableDeclaration.getExpression().toString());
         }
-
         return variableDeclaration;
     }
 
@@ -623,6 +644,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitNormalFunction(ReactjsParser.NormalFunctionContext ctx) {
+        symbolTable.enterScope();
         NormalFunction normalFunction = new NormalFunction();
 
         normalFunction.setFunctionName(ctx.IDENTIFIER().toString());
@@ -643,14 +665,15 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // Symbol Table
         Row row = new Row();
+        row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(normalFunction.getFunctionName());
         row.setValue(normalFunction.getStatements().toString());
-        this.symbolTable.getRows().add(row);
+        this.symbolTable.addVariable(row);
 
         // Symbol Table 2
         s.addVariable(normalFunction.getFunctionName(), normalFunction.getStatements());
 
-
+        symbolTable.exitScope();
         return normalFunction;
     }
 
