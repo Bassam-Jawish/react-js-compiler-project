@@ -24,6 +24,8 @@ public class SemanticCheck {
         this.symbolTable = symbolTable;
     }
 
+
+    // checkIfVariableUsedNotDefined
     Stack<Map<String, Integer>> checkScopes = new Stack<>();
 
     public Stack<Map<String, Integer>> getCheckScopes() {
@@ -34,6 +36,23 @@ public class SemanticCheck {
         this.checkScopes = checkScopes;
     }
 
+
+    // checkIfVariableUsedNotDefined
+
+    private Map<String, Boolean> declaredVariables = new HashMap<>();
+
+    public Map<String, Boolean> getDeclaredVariables() {
+        return declaredVariables;
+    }
+
+    public void setDeclaredVariables(Map<String, Boolean> declaredVariables) {
+        declaredVariables = declaredVariables;
+    }
+
+    public void setOneDeclaredVariable(String variableName) {
+        this.declaredVariables.put(variableName, true);
+    }
+
     public void check(Program program) {
         try {
             FileWriter test = new FileWriter("semantic.txt");
@@ -41,13 +60,15 @@ public class SemanticCheck {
 
             // Error Handling
             checkIfVariableAlreadyDefined();
-            checkIfVariableUsed();
             checkHooksTopLevel();
             // checkLine();
 
+            // print Errors
+            printErrors();
+
             test.append("Semantic Check : \n");
             for (int i = 0; i < Errors.size(); i++) {
-                test.append(Errors.get(i) + "\n");
+                test.append(Errors.get(i)).append("\n");
             }
             test.flush();
             test.close();
@@ -76,7 +97,6 @@ public class SemanticCheck {
                 if (top.getOrDefault(name, 0) > 0) {
                     // Error
                     Errors.add("Error: Variable '" + name + "' is already defined in scope " + scopeId);
-                    System.out.println("Error: Variable '" + name + "' is already defined in scope " + scopeId);
                 } else {
                     top.put(name, top.getOrDefault(name, 0) + 1);
                     checkScopes.push(top);
@@ -136,12 +156,20 @@ public class SemanticCheck {
 //        }
     }
 
-    public void checkIfVariableUsed() {
-
+    public void checkIfVariableUsedNotDefined(String variableUsedName) {
+        if (!this.declaredVariables.getOrDefault(variableUsedName, false)) {
+            Errors.add("Error: Variable '" + variableUsedName + "' is used but not defined.");
+        }
     }
 
     public void checkHooksTopLevel() {
 
+    }
+
+    private void printErrors() {
+        for (String errors: Errors) {
+            System.out.println(errors);
+        }
     }
 
 

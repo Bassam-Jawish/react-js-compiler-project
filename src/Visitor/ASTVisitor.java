@@ -16,6 +16,7 @@ import AST.program.Program;
 import AST.pureReact.FunctionCreateElement;
 import AST.pureReact.CreateFunctionParams;
 import AST.statement.*;
+import ErrorHandling.SemanticCheck;
 import SymbolTableStructure.Row;
 import SymbolTableStructure.SymbolTable;
 import SymbolTableStructure.SymbolTable2;
@@ -34,6 +35,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
     }
 
 
+    SemanticCheck semanticCheck = new SemanticCheck();
 
     public SymbolTable symbolTable = new SymbolTable();
 
@@ -347,6 +349,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         Row row = new Row();
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(classDeclaration.getClassName());
+        row.setType("");
         row.setValue(classDeclaration.getStatements().toString());
         this.symbolTable.addVariable(row);
 
@@ -404,9 +407,13 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         Row row = new Row();
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(variableDeclarationConst.getVariableType().toString());
+        row.setType("");
         row.setValue(variableDeclarationConst.getExpression().toString());
         this.symbolTable.addVariable(row);
-        
+
+        // declaring a new variable
+        semanticCheck.setOneDeclaredVariable(variableDeclarationConst.getVariableType().toString());
+
         // Symbol Table 2
         s.addVariable(variableDeclarationConst.getVariableType().toString(), variableDeclarationConst.getExpression().toString());
         return variableDeclarationConst;
@@ -428,6 +435,9 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             row.setType("");
             row.setValue(variableDeclaration.getExpression().toString());
             this.symbolTable.addVariable(row);
+
+            // declaring a new variable
+            semanticCheck.setOneDeclaredVariable(variableDeclaration.getVariableType().toString());
 
             // Symbol Table 2
             s.addVariable(variableDeclaration.getVariableType().toString(), variableDeclaration.getExpression().toString());
@@ -1374,6 +1384,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         } else if (ctx.IDENTIFIER() != null) {
             value.setType("Identifier");
             value.setValue(ctx.IDENTIFIER().getText());
+            semanticCheck.checkIfVariableUsedNotDefined(ctx.IDENTIFIER().getText());
         }
         return value;
 

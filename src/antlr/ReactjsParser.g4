@@ -99,7 +99,7 @@ classDeclaration : CLASS IDENTIFIER (EXTENDS expression)? OPEN_BRACE statement* 
 // const pro = '443';
 // var pro
 
-variableStatement: varHelpers? variableDeclaration (COMMA variableDeclaration)* SEMI_COLON?                # VariableDeclarationVr
+variableStatement: varHelpers variableDeclaration (COMMA variableDeclaration)* SEMI_COLON?                # VariableDeclarationVr
                  | CONST variableDeclarationConst (COMMA variableDeclarationConst)* SEMI_COLON?            # VariableDeclarationConstVr
                  ;
 

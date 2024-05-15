@@ -1,2 +1,3 @@
 Semantic Check : 
-Error: Variable 'y' is already defined in scope 2
+Error: Variable 'p' is used but not defined.
+Error: Variable 'p' is already defined in scope 0
