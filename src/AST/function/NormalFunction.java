@@ -2,6 +2,7 @@ package AST.function;
 
 import AST.Space;
 import AST.expression.Expression;
+import AST.statement.BlockStatement;
 import AST.statement.Statement;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class NormalFunction extends FunctionDeclaration {
 
     private String functionName;
     private List<Expression> expression;
-    private List<Statement> statements;
+    private BlockStatement blockStatement;
 
     public NormalFunction() {
 
@@ -32,12 +33,12 @@ public class NormalFunction extends FunctionDeclaration {
         this.expression = expression;
     }
 
-    public List<Statement> getStatements() {
-        return statements;
+    public BlockStatement getBlockStatement() {
+        return blockStatement;
     }
 
-    public void setStatements(List<Statement> statements) {
-        this.statements = statements;
+    public void setBlockStatement(BlockStatement blockStatement) {
+        this.blockStatement = blockStatement;
     }
 
     @Override
@@ -60,12 +61,10 @@ public class NormalFunction extends FunctionDeclaration {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Parameters: {}\n");
         }
 
-        if (!statements.isEmpty()) {
+        if (blockStatement != null) {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Function Body: {\n");
             Space.currentValue++;
-            for (Statement statement : statements) {
-                stringBuilder.append("\t".repeat(Space.currentValue)).append(statement.toString()).append(",\n");
-            }
+            stringBuilder.append("\t".repeat(Space.currentValue)).append(blockStatement.toString()).append(",\n");
             Space.currentValue--;
             stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
         }

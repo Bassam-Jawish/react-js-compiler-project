@@ -13,7 +13,6 @@ statement : block                               # BlockSt
           | classDeclaration                    # ClassDeclarationSt
           | ifStatement                         # IfStatementSt
           | iterationStatement                  # IterationStatementSt
-          | returnStatment                      # ReturnStatmentSt
           | functionDeclartion                  # FunctionDeclartionSt
           | functionCreateElement               # FunctionCreateElementSt
           | functionCall                        # FunctionCallSt
@@ -79,6 +78,8 @@ exportStatement : exportDefaultDeclaration                      #ExportDefaultDe
                 | exportDeclaration                             #ExportDeclaration_L
                 ;
 
+
+
 exportDefaultDeclaration: EXPORT DEFAULT_CASE expression SEMI_COLON?
                         ;
 
@@ -142,7 +143,7 @@ arrayDeclaration : OPEN_BRACKET COMMA* (expression COMMA)* expression? COMMA* CL
 ///////////////////////////////////////////////////////////////////////
 // experssion
 
-expression:functionDeclartion                                                                                # FunctionExpression
+expression: functionDeclartion                                                                                # FunctionExpression
           | functionCall                                                                                     # FunctionCallExpression
           | arrayAccess                                                                                      # ArrayAcessExpression
           | expression QUESTION_MARK? DOT HASH_TAG? expression                                               # MemberDotExpression
@@ -292,10 +293,10 @@ functionDeclartion : normalFunction          #NormalFunction_L
 // arrowFunction
 
 // function s(){}
-normalFunction  : ASYNC? FUNCTION MULTIPLY? IDENTIFIER OPEN_PAREN (expression COMMA?)* CLOSE_PAREN OPEN_BRACE statement* CLOSE_BRACE SEMI_COLON?;
+normalFunction  : ASYNC? FUNCTION MULTIPLY? IDENTIFIER OPEN_PAREN (expression COMMA?)* CLOSE_PAREN block;
 
 // function (){}
-anoymousFunction  : ASYNC? FUNCTION MULTIPLY? OPEN_PAREN (expression COMMA?)* CLOSE_PAREN OPEN_BRACE statement* CLOSE_BRACE SEMI_COLON?;
+anoymousFunction  : ASYNC? FUNCTION MULTIPLY? OPEN_PAREN (expression COMMA?)* CLOSE_PAREN block;
 
 // () => {}
 arrowFunction : arrowParameters ARROW (block | expression);

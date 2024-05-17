@@ -1,4 +1,4 @@
-// Generated from C:/Users/mahmoud/Desktop/CompilerReactJs/src/antlr/ReactjsParser.g4 by ANTLR 4.13.1
+// Generated from C:/compiler/react-js-compiler-project/src/antlr/ReactjsParser.g4 by ANTLR 4.13.1
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

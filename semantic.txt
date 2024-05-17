@@ -1,3 +1,2 @@
 Semantic Check : 
-Error: Variable 'p' is used but not defined.
-Error: Variable 'p' is already defined in scope 0
+Error: Open Tag: (div) doesn't equal Closed Tag: (divv)

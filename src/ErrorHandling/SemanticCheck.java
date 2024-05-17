@@ -53,10 +53,23 @@ public class SemanticCheck {
         this.declaredVariables.put(variableName, true);
     }
 
+    private Map<String, Boolean> declaredConstVariables = new HashMap<>();
+
+    public Map<String, Boolean> getDeclaredConstVariables() {
+        return declaredConstVariables;
+    }
+
+    public void setDeclaredConstVariables(Map<String, Boolean> declaredConstVariables) {
+        declaredConstVariables = declaredConstVariables;
+    }
+
+    public void setOneDeclaredConstVariable(String variableName) {
+        this.declaredConstVariables.put(variableName, true);
+    }
+
     public void check(Program program) {
         try {
             FileWriter test = new FileWriter("semantic.txt");
-
 
             // Error Handling
             checkIfVariableAlreadyDefined();
@@ -162,12 +175,25 @@ public class SemanticCheck {
         }
     }
 
+    public void checkIfVariableIsConst(String variableUsedName) {
+        if (!this.declaredConstVariables.getOrDefault(variableUsedName, false) && this.declaredVariables.getOrDefault(variableUsedName, false)) {
+            Errors.add("Error: You cannot assign a value to a constant variable");
+        }
+    }
+
+    public void checkIfTwoTagsAreNotEquals (String tagOne, String tagTwo) {
+        if (!tagOne.equals(tagTwo)) {
+            Errors.add("Error: Open Tag: (" + tagOne + ") doesn't equal Closed Tag: (" + tagTwo + ")");
+        }
+    }
+
+
     public void checkHooksTopLevel() {
 
     }
 
     private void printErrors() {
-        for (String errors: Errors) {
+        for (String errors : Errors) {
             System.out.println(errors);
         }
     }

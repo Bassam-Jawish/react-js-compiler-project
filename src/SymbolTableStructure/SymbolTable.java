@@ -42,9 +42,9 @@ public class SymbolTable {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Symbol Table:\n");
-        stringBuilder.append("*").append("*".repeat(100)).append("*\n");
-        stringBuilder.append(String.format("| %-12s | %-15s | %-60s |\n", "Scope Id", "Variable Name", "Value"));
-        stringBuilder.append("*").append("*".repeat(100)).append("*\n");
+        stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+        stringBuilder.append(String.format("| %-10s | %-65s | %-65s \n", "Scope Id", "Variable Name", "Value"));
+        stringBuilder.append("*").append("*".repeat(180)).append("*\n");
 
         // Find the maximum width needed for the fourth column
         int maxThirdColumnWidth = 0;
@@ -64,10 +64,10 @@ public class SymbolTable {
                     String valueLine = (i < valueLines.length) ? valueLines[i] : "";
                     String variableName = (i == 0) ? row.getVariableName() : "";
 
-                    stringBuilder.append(String.format("| %-12s | %-15s | %-60s | \n", (i == 0) ? row.getScopeId() : "", variableName, valueLine + " ".repeat(maxThirdColumnWidth - valueLine.length())));
+                    stringBuilder.append(String.format("| %-10s | %-65s | %-65s  \n", (i == 0) ? row.getScopeId() : "", variableName, valueLine + " ".repeat(maxThirdColumnWidth - valueLine.length())));
                 }
 
-                stringBuilder.append("*").append("*".repeat(100)).append("*\n");
+                stringBuilder.append("*").append("*".repeat(180)).append("*\n");
             }
         }
 

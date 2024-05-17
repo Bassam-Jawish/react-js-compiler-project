@@ -43,6 +43,10 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         return symbolTable;
     }
 
+    public SymbolTable2 getSymbolTable2() {
+        return s;
+    }
+
     //-------------------- Program ---------------------
     @Override
     public Program visitProgram(ReactjsParser.ProgramContext ctx) {
@@ -413,6 +417,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // declaring a new variable
         semanticCheck.setOneDeclaredVariable(variableDeclarationConst.getVariableType().toString());
+        semanticCheck.setOneDeclaredConstVariable(variableDeclarationConst.getVariableType().toString());
 
         // Symbol Table 2
         s.addVariable(variableDeclarationConst.getVariableType().toString(), variableDeclarationConst.getExpression().toString());
@@ -654,7 +659,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitNormalFunction(ReactjsParser.NormalFunctionContext ctx) {
-        symbolTable.enterScope();
+
         NormalFunction normalFunction = new NormalFunction();
 
         normalFunction.setFunctionName(ctx.IDENTIFIER().toString());
@@ -665,11 +670,9 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
         normalFunction.setExpression(expressions);
 
-        List<Statement> statements = new ArrayList<>();
-        for (ReactjsParser.StatementContext statementContext : ctx.statement()) {
-            statements.add((Statement) visit(statementContext));
-        }
-        normalFunction.setStatements(statements);
+        normalFunction.setBlockStatement((BlockStatement) visitBlock(ctx.block()));
+
+        semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER().toString());
 
         // Assuming 's' is an instance of SymbolTableVariableDeclaration
 
@@ -677,13 +680,12 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         Row row = new Row();
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(normalFunction.getFunctionName());
-        row.setValue(normalFunction.getStatements().toString());
+        row.setValue(normalFunction.getBlockStatement().toString());
         this.symbolTable.addVariable(row);
 
         // Symbol Table 2
-        s.addVariable(normalFunction.getFunctionName(), normalFunction.getStatements());
+        s.addVariable(normalFunction.getFunctionName(), normalFunction.getBlockStatement());
 
-        symbolTable.exitScope();
         return normalFunction;
     }
 
@@ -703,11 +705,9 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
         anonymousFunction.setExpression(expressions);
 
-        List<Statement> statements = new ArrayList<>();
-        for (ReactjsParser.StatementContext statementContext : ctx.statement()) {
-            statements.add((Statement) visit(statementContext));
-        }
-        anonymousFunction.setStatements(statements);
+        anonymousFunction.setBlockStatement((BlockStatement) visitBlock(ctx.block()));
+
+        anonymousFunction.setExpression(expressions);
 
         return anonymousFunction;
     }
@@ -770,6 +770,8 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
         functionCall.setExpressions(expressions);
 
+        semanticCheck.checkIfVariableUsedNotDefined(ctx.IDENTIFIER().toString());
+
         return functionCall;
 
     }
@@ -791,6 +793,8 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         FunctionCallExpression functionCallExpression = new FunctionCallExpression();
         functionCallExpression.setFunctionCall((FunctionCall) visitFunctionCall(ctx.functionCall()));
+
+
 
         return functionCallExpression;
     }
@@ -963,6 +967,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         } else if (ctx.IDENTITY_NOT_EQUALS() != null) {
             operator = ctx.IDENTITY_NOT_EQUALS().toString();
         } else if (ctx.ASSING() != null) {
+            semanticCheck.checkIfVariableIsConst(ctx.expression(1).toString());
             operator = ctx.ASSING().toString();
         }
 
@@ -1151,9 +1156,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
     @Override
     public Object visitHtmlBodyExpression(ReactjsParser.HtmlBodyExpressionContext ctx) {
         HtmlBodyExpression htmlBodyExpression = new HtmlBodyExpression();
-
         htmlBodyExpression.setHtmlBody((HtmlBody) visit(ctx.htmlBody()));
-
         return htmlBodyExpression;
     }
 
@@ -1186,6 +1189,9 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         if (ctx.IDENTIFIER(1) != null) {
             htmlBodyWithDiv.setCloseTagName(ctx.IDENTIFIER(1).toString());
         }
+
+        semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString());
+
         return htmlBodyWithDiv;
     }
 
