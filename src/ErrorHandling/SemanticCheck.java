@@ -6,6 +6,8 @@ import SymbolTableStructure.Row;
 import SymbolTableStructure.SymbolTable;
 import SymbolTableStructure.SymbolTable2;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -69,7 +71,8 @@ public class SemanticCheck {
 
     public void check(Program program) {
         try {
-            FileWriter test = new FileWriter("semantic.txt");
+            String fileName = "test/semantic.txt";
+            FileWriter test = new FileWriter(fileName);
 
             // Error Handling
             checkIfVariableAlreadyDefined();
@@ -85,6 +88,7 @@ public class SemanticCheck {
             }
             test.flush();
             test.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -137,18 +137,6 @@ public class ReactjsParserBaseListener implements ReactjsParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnStatmentSt(ReactjsParser.ReturnStatmentStContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitReturnStatmentSt(ReactjsParser.ReturnStatmentStContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunctionDeclartionSt(ReactjsParser.FunctionDeclartionStContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -696,6 +684,18 @@ public class ReactjsParserBaseListener implements ReactjsParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitHtmlBodyExpression(ReactjsParser.HtmlBodyExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReturnExpression(ReactjsParser.ReturnExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnExpression(ReactjsParser.ReturnExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

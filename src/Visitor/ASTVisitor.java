@@ -120,12 +120,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
     }
 
     @Override
-    public Object visitReturnStatmentSt(ReactjsParser.ReturnStatmentStContext ctx) {
-        return visit(ctx.returnStatment());
-    }
-
-
-    @Override
     public Object visitFunctionDeclartionSt(ReactjsParser.FunctionDeclartionStContext ctx) {
         return visit(ctx.functionDeclartion());
     }
@@ -633,21 +627,26 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
     //-------------------- ReturnStatement ------------------------
 
     @Override
-    public Object visitHtmlBody_R(ReactjsParser.HtmlBody_RContext ctx) {
-        ReturnStatement returnStatement = new ReturnStatement();
-        if (ctx.htmlBody() != null) {
-            returnStatement.setHtmlBody((HtmlBody) visit(ctx.htmlBody()));
-        }
-        return returnStatement;
+    public Object visitReturnExpression(ReactjsParser.ReturnExpressionContext ctx) {
+        return visit(ctx.return_());
     }
 
     @Override
-    public ReturnStatement visitExpression_R(ReactjsParser.Expression_RContext ctx) {
-        ReturnStatement returnStatement = new ReturnStatement();
-        if (ctx.expression() != null) {
-            returnStatement.setExpression((Expression) visit(ctx.expression()));
+    public Object visitHtmlBody_R(ReactjsParser.HtmlBody_RContext ctx) {
+        ReturnExpression returnExpression = new ReturnExpression();
+        if (ctx.htmlBody() != null) {
+            returnExpression.setHtmlBody((HtmlBody) visit(ctx.htmlBody()));
         }
-        return returnStatement;
+        return returnExpression;
+    }
+
+    @Override
+    public Object visitExpression_R(ReactjsParser.Expression_RContext ctx) {
+        ReturnExpression returnExpression = new ReturnExpression();
+        if (ctx.expression() != null) {
+            returnExpression.setExpression((Expression) visit(ctx.expression()));
+        }
+        return returnExpression;
     }
 
     //-------------------------------------------------FunctionDeclartion-----------------------------------------------------

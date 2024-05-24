@@ -22,8 +22,8 @@ public class Main {
         try {
             //String path = "test/test.txt";
             // String path = "test/test2.txt";
-            // String path = "test/test3.txt";
-            String path = "test/test_interview.txt";
+            String path = "test/test3.txt";
+            // String path = "test/test_interview.txt";
             // String path = "test/useState.txt";
             // String path = "test/useEffect.txt";
             // String path = "test/useReference.txt";

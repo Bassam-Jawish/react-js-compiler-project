@@ -80,13 +80,6 @@ public interface ReactjsParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIterationStatementSt(ReactjsParser.IterationStatementStContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ReturnStatmentSt}
-	 * labeled alternative in {@link ReactjsParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReturnStatmentSt(ReactjsParser.ReturnStatmentStContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code FunctionDeclartionSt}
 	 * labeled alternative in {@link ReactjsParser#statement}.
 	 * @param ctx the parse tree
@@ -394,6 +387,13 @@ public interface ReactjsParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHtmlBodyExpression(ReactjsParser.HtmlBodyExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ReturnExpression}
+	 * labeled alternative in {@link ReactjsParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnExpression(ReactjsParser.ReturnExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code FunctionExpression}
 	 * labeled alternative in {@link ReactjsParser#expression}.
 	 * @param ctx the parse tree
@@ -497,14 +497,14 @@ public interface ReactjsParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitForInStatement(ReactjsParser.ForInStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code HtmlBody_R}
-	 * labeled alternative in {@link ReactjsParser#returnStatment}.
+	 * labeled alternative in {@link ReactjsParser#return}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitHtmlBody_R(ReactjsParser.HtmlBody_RContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Expression_R}
-	 * labeled alternative in {@link ReactjsParser#returnStatment}.
+	 * labeled alternative in {@link ReactjsParser#return}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

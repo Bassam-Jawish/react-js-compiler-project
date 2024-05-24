@@ -1,2 +1,2 @@
 Semantic Check : 
-Error: Variable 'y' is already defined in scope 2
+Error: Open Tag: (div) doesn't equal Closed Tag: (divv)

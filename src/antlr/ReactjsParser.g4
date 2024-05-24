@@ -143,7 +143,7 @@ arrayDeclaration : OPEN_BRACKET COMMA* (expression COMMA)* expression? COMMA* CL
 ///////////////////////////////////////////////////////////////////////
 // experssion
 
-expression: functionDeclartion                                                                                # FunctionExpression
+expression: functionDeclartion                                                                               # FunctionExpression
           | functionCall                                                                                     # FunctionCallExpression
           | arrayAccess                                                                                      # ArrayAcessExpression
           | expression QUESTION_MARK? DOT HASH_TAG? expression                                               # MemberDotExpression
@@ -165,6 +165,7 @@ expression: functionDeclartion                                                  
           | hook                                                                                             # HookExpression
           | functionCreateElement                                                                            # FunctionCreateElementExpression
           | htmlBody                                                                                         # HtmlBodyExpression
+          | return                                                                                           # ReturnExpression
           | OPEN_PAREN expression CLOSE_PAREN                                                                # ParenthesizedExpression
           ;
 
@@ -217,7 +218,7 @@ iterationStatement: DO statement WHILE OPEN_PAREN expression CLOSE_PAREN SEMI_CO
 ///////////////////////////////////////////////////////////////////////
 // return
 
-returnStatment  : RETURN OPEN_PAREN htmlBody CLOSE_PAREN SEMI_COLON           #HtmlBody_R
+return  : RETURN OPEN_PAREN htmlBody CLOSE_PAREN SEMI_COLON           #HtmlBody_R
                 | RETURN expression SEMI_COLON                                #Expression_R
                 ;
 /*

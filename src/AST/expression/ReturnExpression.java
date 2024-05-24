@@ -1,19 +1,18 @@
-package AST.statement;
+package AST.expression;
 
 import AST.Space;
-import AST.expression.Expression;
 import AST.jsx.HtmlBody;
 
-public class ReturnStatement extends Statement{
+public class ReturnExpression extends Expression{
     private Expression expression;
     private HtmlBody htmlBody;
 
-    public ReturnStatement() {
+    public ReturnExpression() {
         this.expression = expression;
         this.htmlBody = null;
     }
 
-    public ReturnStatement(HtmlBody htmlBody) {
+    public ReturnExpression(HtmlBody htmlBody) {
         this.htmlBody = htmlBody;
         this.expression = null;
     }
@@ -37,7 +36,7 @@ public class ReturnStatement extends Statement{
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Return Statement: {\n");
+        stringBuilder.append("Return Expression: {\n");
         if (htmlBody!= null) {
             Space.currentValue++;
             stringBuilder.append("\t".repeat(Space.currentValue)).append(htmlBody.toString()).append(",\n");

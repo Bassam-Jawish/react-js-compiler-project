@@ -126,18 +126,6 @@ public interface ReactjsParserListener extends ParseTreeListener {
 	 */
 	void exitIterationStatementSt(ReactjsParser.IterationStatementStContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ReturnStatmentSt}
-	 * labeled alternative in {@link ReactjsParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterReturnStatmentSt(ReactjsParser.ReturnStatmentStContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ReturnStatmentSt}
-	 * labeled alternative in {@link ReactjsParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitReturnStatmentSt(ReactjsParser.ReturnStatmentStContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code FunctionDeclartionSt}
 	 * labeled alternative in {@link ReactjsParser#statement}.
 	 * @param ctx the parse tree
@@ -660,6 +648,18 @@ public interface ReactjsParserListener extends ParseTreeListener {
 	 */
 	void exitHtmlBodyExpression(ReactjsParser.HtmlBodyExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ReturnExpression}
+	 * labeled alternative in {@link ReactjsParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnExpression(ReactjsParser.ReturnExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ReturnExpression}
+	 * labeled alternative in {@link ReactjsParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnExpression(ReactjsParser.ReturnExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code FunctionExpression}
 	 * labeled alternative in {@link ReactjsParser#expression}.
 	 * @param ctx the parse tree
@@ -835,25 +835,25 @@ public interface ReactjsParserListener extends ParseTreeListener {
 	void exitForInStatement(ReactjsParser.ForInStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code HtmlBody_R}
-	 * labeled alternative in {@link ReactjsParser#returnStatment}.
+	 * labeled alternative in {@link ReactjsParser#return}.
 	 * @param ctx the parse tree
 	 */
 	void enterHtmlBody_R(ReactjsParser.HtmlBody_RContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code HtmlBody_R}
-	 * labeled alternative in {@link ReactjsParser#returnStatment}.
+	 * labeled alternative in {@link ReactjsParser#return}.
 	 * @param ctx the parse tree
 	 */
 	void exitHtmlBody_R(ReactjsParser.HtmlBody_RContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Expression_R}
-	 * labeled alternative in {@link ReactjsParser#returnStatment}.
+	 * labeled alternative in {@link ReactjsParser#return}.
 	 * @param ctx the parse tree
 	 */
 	void enterExpression_R(ReactjsParser.Expression_RContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code Expression_R}
-	 * labeled alternative in {@link ReactjsParser#returnStatment}.
+	 * labeled alternative in {@link ReactjsParser#return}.
 	 * @param ctx the parse tree
 	 */
 	void exitExpression_R(ReactjsParser.Expression_RContext ctx);
