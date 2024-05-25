@@ -22,4 +22,18 @@ public class FunctionExpression extends Expression{
         return "FunctionExpression: " + functionDeclaration.toString();
     }
 
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

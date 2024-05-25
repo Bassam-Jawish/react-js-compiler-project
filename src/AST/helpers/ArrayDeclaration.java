@@ -25,7 +25,6 @@ public class ArrayDeclaration extends VariableType{
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-
         stringBuilder.append("Array Declaration: {\n");
         Space.currentValue++;
         for (Expression expression : expressions) {

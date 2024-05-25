@@ -21,4 +21,19 @@ public class HtmlBodyExpression extends Expression{
     public String toString() {
         return "HtmlBodyExpression: " + htmlBody.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

@@ -22,4 +22,19 @@ public class FunctionCallExpression extends Expression{
     public String toString() {
         return "FunctionCallExpression: " + functionCall.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

@@ -62,4 +62,19 @@ public class ExportDeclaration extends ExportStatement {
         stringBuilder.append("\t".repeat(Space.currentValue)).append("\n}");
         return stringBuilder.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

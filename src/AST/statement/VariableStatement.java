@@ -73,4 +73,19 @@ public class VariableStatement extends Statement {
         stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
         return stringBuilder.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

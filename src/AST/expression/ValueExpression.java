@@ -22,4 +22,19 @@ public class ValueExpression extends Expression{
     public String toString() {
         return "ValueExpression: " + valueDeclaration.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

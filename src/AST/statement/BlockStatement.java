@@ -40,6 +40,21 @@ public class  BlockStatement extends Statement {
         return stringBuilder.toString();
     }
 
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
+
     /*
     public void execute() {
         // Implement logic to execute each statement within the block

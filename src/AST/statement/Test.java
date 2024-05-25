@@ -38,5 +38,18 @@ public class Test extends Statement{
     }
 
 
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
 
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

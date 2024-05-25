@@ -37,4 +37,24 @@ public class UseEffectHook extends Hook{
         stringBuilder.append(")");
         return stringBuilder.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        // Convert the UseEffectHook to HTML representation
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<div class=\"useEffectHook\">");
+        htmlBuilder.append("<p>").append(toString()).append("</p>");
+        htmlBuilder.append("</div>");
+        return htmlBuilder.toString();
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

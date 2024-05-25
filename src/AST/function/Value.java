@@ -36,4 +36,19 @@ public class Value extends ArrowParameters{
         }
         return "{Type = " + type + ", Value = " + value + "}";
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

@@ -2,8 +2,9 @@ package AST.expression;
 
 import AST.Space;
 import AST.jsx.HtmlBody;
+import AST.statement.Statement;
 
-public class ReturnExpression extends Expression{
+public class ReturnExpression extends Expression {
     private Expression expression;
     private HtmlBody htmlBody;
 
@@ -54,4 +55,18 @@ public class ReturnExpression extends Expression{
 
     }
 
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

@@ -21,4 +21,19 @@ public class HookExpression extends Expression{
     public String toString() {
         return "HookExpression: " + hookDeclaration.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

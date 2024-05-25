@@ -14,9 +14,8 @@ public class ImportDefaultSpecifier extends ImportDeclaration {
         this.type = type;
     }
 
-    public ImportDefaultSpecifier(
-
-    ) {
+    public ImportDefaultSpecifier() {
+        super();
 
     }
 

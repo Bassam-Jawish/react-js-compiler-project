@@ -53,4 +53,18 @@ public class AdditiveExpression extends Expression{
         return stringBuilder.toString();
     }
 
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

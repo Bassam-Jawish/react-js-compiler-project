@@ -1,5 +1,23 @@
+import React, { useRef } from 'react';
 
+function MyComponent() {
+  // Creating a ref object
+  const inputRef = useRef(null);
 
+  // Function to focus on the input field
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
 
+  return (
+    <div>
+      {/* Input field with ref */}
+      <input ref={inputRef} type="text" />
 
-<div classname = "key">jsxContent</divvv>
+      {/* Button to trigger focus on the input field */}
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+}
+
+export default MyComponent;

@@ -21,4 +21,19 @@ public class FunctionCreateElementExpression extends Expression{
     public String toString() {
         return "FunctionCreateElementExpression: " + functionCreateElement.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        return "";
+    }
+
+    @Override
+    public String convertToCss() {
+        return "";
+    }
+
+    @Override
+    public String convertToJs() {
+        return "";
+    }
 }

@@ -185,9 +185,11 @@ public class SemanticCheck {
         }
     }
 
-    public void checkIfTwoTagsAreNotEquals (String tagOne, String tagTwo) {
+    public void checkIfTwoTagsAreNotEquals(String tagOne, String tagTwo) {
         if (!tagOne.equals(tagTwo)) {
             Errors.add("Error: Open Tag: (" + tagOne + ") doesn't equal Closed Tag: (" + tagTwo + ")");
+        } else {
+            Errors.add("Error: Tags are empty");
         }
     }
 

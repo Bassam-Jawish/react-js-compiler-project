@@ -1,2 +1,5 @@
 Semantic Check : 
-Error: Open Tag: (div) doesn't equal Closed Tag: (divvv)
+Error: Variable 'current' is used but not defined.
+Error: Variable 'focus' is used but not defined.
+Error: Tags are empty
+Error: Tags are empty
