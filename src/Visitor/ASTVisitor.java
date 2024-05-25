@@ -220,6 +220,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         if (ctx.IDENTIFIER() != null) {
             importDefaultSpecifier.setType(ctx.IDENTIFIER().getText());
+            semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER().getText());
         } else if (ctx.STRING() != null) {
             importDefaultSpecifier.setType(ctx.STRING().getText());
         } else if (ctx.REACT() != null) {
@@ -237,6 +238,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         ImportNamespaceSpecifier importNamespaceSpecifier = new ImportNamespaceSpecifier();
 
+        semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER().getText());
         importNamespaceSpecifier.setType(ctx.IDENTIFIER().toString());
 
         return importNamespaceSpecifier;
@@ -268,9 +270,11 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         if (ctx.IDENTIFIER().size() == 2) {
             String alias = ctx.IDENTIFIER(1).getText();
             importSpecifier.setType(ctx.IDENTIFIER(0).getText() + " AS " + alias);
+            semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER(0).getText());
         } else {
             if (!ctx.IDENTIFIER().isEmpty()) {
                 importSpecifier.setType(ctx.IDENTIFIER(0).getText());
+                semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER(0).getText());
             } else if (ctx.USE_STATE() != null) {
                 importSpecifier.setType(ctx.USE_STATE().getText());
             } else if (ctx.USE_EFFECT() != null) {
@@ -1185,11 +1189,15 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             htmlBodyWithDiv.setJsxContent(jsxContent);
         }
 
-        if (ctx.IDENTIFIER(1) != null) {
-            htmlBodyWithDiv.setCloseTagName(ctx.IDENTIFIER(1).toString());
+        if (ctx.IDENTIFIER(0) == null && ctx.IDENTIFIER(1) == null) {
+            semanticCheck.checkIfTwoTagsAreNotEquals("", "");
+        } else if (ctx.IDENTIFIER(0) == null) {
+            semanticCheck.checkIfTwoTagsAreNotEquals("", ctx.IDENTIFIER(1).toString());
+        } else if (ctx.IDENTIFIER(1) == null) {
+            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), "");
         }
-
-        semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString());
+        else
+            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString());
 
         return htmlBodyWithDiv;
     }
