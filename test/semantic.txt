@@ -1,2 +1,1 @@
 Semantic Check : 
-Error: Tags are empty

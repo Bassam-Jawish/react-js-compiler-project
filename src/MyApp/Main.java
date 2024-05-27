@@ -36,11 +36,11 @@ public class Main {
             CommonTokenStream token = new CommonTokenStream(lexer);
             ReactjsParser parser = new ReactjsParser(token);
             ReactjsParser.ProgramContext tree = parser.program();
-            ASTVisitor astVisitor = new ASTVisitor();
+            SemanticCheck semanticCheck = new SemanticCheck();
+            ASTVisitor astVisitor = new ASTVisitor(semanticCheck);
             Program program = (astVisitor.visitProgram(tree));
             System.out.println(program);
             System.out.println(astVisitor.getSymbolTable().toString());
-            SemanticCheck semanticCheck = new SemanticCheck();
             semanticCheck.setSymbolTable(astVisitor.getSymbolTable());
             semanticCheck.check(program);
         }
