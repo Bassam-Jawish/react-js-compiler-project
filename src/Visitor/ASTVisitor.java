@@ -224,6 +224,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         } else if (ctx.STRING() != null) {
             importDefaultSpecifier.setType(ctx.STRING().getText());
         } else if (ctx.REACT() != null) {
+            semanticCheck.setReactImported(true);
             importDefaultSpecifier.setType(ctx.REACT().getText());
         } else if (ctx.DEFAULT_CASE() != null && ctx.IDENTIFIER() != null) {
             importDefaultSpecifier.setType("DEFAULT_CASE AS " + ctx.IDENTIFIER().getText());
@@ -271,6 +272,8 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             String alias = ctx.IDENTIFIER(1).getText();
             importSpecifier.setType(ctx.IDENTIFIER(0).getText() + " AS " + alias);
             semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER(0).getText(), symbolTable.getScopeId(), "import");
+            if (ctx.IDENTIFIER(0).getText().equals("React"))
+                semanticCheck.setReactImported(true);
         } else {
             if (!ctx.IDENTIFIER().isEmpty()) {
                 importSpecifier.setType(ctx.IDENTIFIER(0).getText());
@@ -333,7 +336,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Statement visitClassDeclaration(ReactjsParser.ClassDeclarationContext ctx) {
-        symbolTable.enterScope();
         ClassDeclaration classDeclaration = new ClassDeclaration();
 
         String className = ctx.IDENTIFIER().toString();
@@ -344,25 +346,20 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             classDeclaration.setExtendedClassName(extendedClass);
         }
 
-        List<Statement> st = new ArrayList<>();
-        for (ReactjsParser.StatementContext state : ctx.statement()) {
-            if (ctx.statement() != null)
-                st.add((Statement) visit(state));
-        }
-        classDeclaration.setStatements(st);
+        BlockStatement blockStatement = new BlockStatement();
+        classDeclaration.setBlockStatement(blockStatement);
 
         // Symbol Table
         Row row = new Row();
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(classDeclaration.getClassName());
         row.setType("");
-        row.setValue(classDeclaration.getStatements().toString());
+        row.setValue(classDeclaration.getBlockStatement().toString());
         this.symbolTable.addVariable(row);
 
         // Symbol Table 2
-        s.addVariable(classDeclaration.getClassName(), classDeclaration.getStatements().toString());
+        s.addVariable(classDeclaration.getClassName(), classDeclaration.getBlockStatement().toString());
 
-        symbolTable.exitScope();
         return classDeclaration;
     }
 
@@ -596,7 +593,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public ForStatement visitForStatement(ReactjsParser.ForStatementContext ctx) {
-
+        symbolTable.enterScope();
         ForStatement forStatement = new ForStatement();
 
         List<Expression> expressions = new ArrayList<>();
@@ -610,7 +607,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
 
         forStatement.setStatement((Statement) visit(ctx.statement()));
-
+        symbolTable.exitScope();
         return forStatement;
     }
 

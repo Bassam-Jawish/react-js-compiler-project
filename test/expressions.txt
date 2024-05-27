@@ -11,7 +11,8 @@ const object = {
     nestedProperty: 'value'
   }
 };
-const result = object.property.nestedProperty;
+
+const result3 = object.property.nestedProperty;
 
 const Component = () => {
   const object = {
