@@ -1,0 +1,17 @@
+
+function MyComponent({ items, setItems }) {
+
+    const [searchTerm, setSearchTerm] = useState(""); // Error: UseState is used but not imported!
+
+    const element = React.createElement(
+      'div',
+      {},
+      React.createElement('h2', {}, "Let's get started!")
+    ); // Error: CreateElement (Pure React) is used but not imported!
+
+    return (
+        <div>
+            <p>{searchTerm}</p>
+        </div>
+    );
+}

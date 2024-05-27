@@ -292,7 +292,6 @@ public class SemanticCheck {
         }
     }
 
-
     public void checkLine() {
         boolean isError = false;
         /*

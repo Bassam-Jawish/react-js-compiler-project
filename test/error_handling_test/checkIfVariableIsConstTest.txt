@@ -1,0 +1,10 @@
+function MyComponent() {
+    const count = 0;
+    count = 1; // Error: You cannot assign a value to a constant variable: count
+
+    return (
+        <div>
+            <p>{count}</p>
+        </div>
+    );
+}

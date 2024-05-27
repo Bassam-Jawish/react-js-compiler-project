@@ -1,0 +1,7 @@
+function MyComponent() {
+    return (
+        <div>
+            <p>This is a paragraph</span> // Error: Open Tag: (p) doesn't equal Closed Tag: (span)
+        </div>
+    );
+}

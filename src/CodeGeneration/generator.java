@@ -9,9 +9,7 @@ import java.io.IOException;
 public class generator {
     int pages = 1, inputs = 0;
 
-
     // code
-
 
     /*-----------------------------To Be Continued----------------------------------------------------------------*/
 
