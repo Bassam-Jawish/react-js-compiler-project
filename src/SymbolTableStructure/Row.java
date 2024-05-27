@@ -1,14 +1,21 @@
 package SymbolTableStructure;
 
 public class Row {
+    private int line;
     private String variableName;
-
     private String type;
     private String value;
     private int scopeId = 0;
 
     public Row() {}
 
+
+    public int getLine() {
+        return line;
+    }
+    public void setLine(int line) {
+        this.line = line;
+    }
     public String getType() {
         return type;
     }

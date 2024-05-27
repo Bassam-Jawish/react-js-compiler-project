@@ -1,9 +1,4 @@
-// Import necessary modules
-import React from 'react';
+var s = 1;
 
-// Create the element tree using React.createElement
-const element = React.createElement(
-  'div',
-  {},
-  React.createElement('h2', {}, "Let's get started!"),
-);
+
+var s = 2;

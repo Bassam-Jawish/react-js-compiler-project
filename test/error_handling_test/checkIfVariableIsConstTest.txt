@@ -1,6 +1,6 @@
 function MyComponent() {
     const count = 0;
-    count = 1; // Error: You cannot assign a value to a constant variable: count
+    count = 1; // Line 3: (Error: You cannot assign a value to a constant variable: count).
 
     return (
         <div>

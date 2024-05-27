@@ -5,7 +5,7 @@ function MyComponent() {
     if (true) {
         let count = 1;
     }
-    var y = 2; // Error: Variable 'y' is already defined in scope 1
+    var y = 2; // Line 8: (Error: Variable 'y' is already defined in scope 1).
     return (
         <div>
             <p>{x}</p>
@@ -13,4 +13,4 @@ function MyComponent() {
     );
 }
 
-var x = 3; // Error: Variable 'x' is already defined in scope 0
+var x = 3; // Line 16: (Error: Variable 'x' is already defined in scope 0).

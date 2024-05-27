@@ -351,6 +351,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // Symbol Table
         Row row = new Row();
+        row.setLine(ctx.start.getLine());
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(classDeclaration.getClassName());
         row.setType("");
@@ -408,6 +409,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // Symbol Table
         Row row = new Row();
+        row.setLine(ctx.start.getLine());
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(variableDeclarationConst.getVariableType().toString());
         row.setType("");
@@ -433,11 +435,14 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
             // Symbol Table
             Row row = new Row();
+            row.setLine(ctx.start.getLine());
             row.setScopeid(symbolTable.getScopeId());
             row.setVariableName(variableDeclaration.getVariableType().toString());
             row.setType("");
             row.setValue(variableDeclaration.getExpression().toString());
             this.symbolTable.addVariable(row);
+
+            System.out.println(ctx.start.getLine());
 
             // declaring a new variable
             semanticCheck.setOneDeclaredVariable(variableDeclaration.getVariableType().toString(), symbolTable.getScopeId(), "var/let");
@@ -685,6 +690,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // Symbol Table
         Row row = new Row();
+        row.setLine(ctx.start.getLine());
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(normalFunction.getFunctionName());
         row.setValue(normalFunction.getBlockStatement().toString());
@@ -784,7 +790,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
         functionCall.setExpressions(expressions);
 
-        semanticCheck.checkIfVariableUsedNotDefined(ctx.IDENTIFIER().toString(), symbolTable.getScopeId());
+        semanticCheck.checkIfVariableUsedNotDefined(ctx.IDENTIFIER().toString(), symbolTable.getScopeId(), ctx.start.getLine());
 
         return functionCall;
 
@@ -980,7 +986,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         } else if (ctx.IDENTITY_NOT_EQUALS() != null) {
             operator = ctx.IDENTITY_NOT_EQUALS().toString();
         } else if (ctx.ASSING() != null) {
-            semanticCheck.checkIfVariableIsConst(ctx.expression(0).getText());
+            semanticCheck.checkIfVariableIsConst(ctx.expression(0).getText(), ctx.start.getLine());
             operator = ctx.ASSING().toString();
         }
 
@@ -1046,7 +1052,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitHookExpression(ReactjsParser.HookExpressionContext ctx) {
-        semanticCheck.checkHooksTopLevel(symbolTable.getScopeId(), ctx.hook().getText());
+        semanticCheck.checkHooksTopLevel(symbolTable.getScopeId(), ctx.hook().getText(), ctx.start.getLine());
         return visit(ctx.hook());
     }
 
@@ -1057,7 +1063,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitUseStateHook(ReactjsParser.UseStateHookContext ctx) {
-        semanticCheck.checkIfHooksAreImported("UseState");
+        semanticCheck.checkIfHooksAreImported("UseState", ctx.start.getLine());
         UseStateHook useStateHook = new UseStateHook();
         List<Value> values = new ArrayList<>();
         for (ReactjsParser.ValueContext valueContext : ctx.value()) {
@@ -1075,7 +1081,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitUseEffectHook(ReactjsParser.UseEffectHookContext ctx) {
-        semanticCheck.checkIfHooksAreImported("UseEffect");
+        semanticCheck.checkIfHooksAreImported("UseEffect", ctx.start.getLine());
 
         UseEffectHook useEffectHook = new UseEffectHook();
 
@@ -1093,7 +1099,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitUseRefHook_value(ReactjsParser.UseRefHook_valueContext ctx) {
-        semanticCheck.checkIfHooksAreImported("UseRef");
+        semanticCheck.checkIfHooksAreImported("UseRef", ctx.start.getLine());
 
         UseRefHook useRefHook = new UseRefHook();
         List<Value> values = new ArrayList<>();
@@ -1119,7 +1125,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitFunctionCreateElementExpression(ReactjsParser.FunctionCreateElementExpressionContext ctx) {
-        semanticCheck.checkIfHooksAreImported("CreateElement");
+        semanticCheck.checkIfHooksAreImported("CreateElement", ctx.start.getLine());
 
         FunctionCreateElementExpression f = new FunctionCreateElementExpression();
 
@@ -1200,13 +1206,13 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
 
         if (ctx.IDENTIFIER(0) == null && ctx.IDENTIFIER(1) == null) {
-            semanticCheck.checkIfTwoTagsAreNotEquals("", "");
+            semanticCheck.checkIfTwoTagsAreNotEquals("", "", ctx.start.getLine());
         } else if (ctx.IDENTIFIER(0) == null) {
-            semanticCheck.checkIfTwoTagsAreNotEquals("", ctx.IDENTIFIER(1).toString());
+            semanticCheck.checkIfTwoTagsAreNotEquals("", ctx.IDENTIFIER(1).toString(), ctx.start.getLine());
         } else if (ctx.IDENTIFIER(1) == null) {
-            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), "");
+            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), "", ctx.start.getLine());
         } else
-            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString());
+            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString(), ctx.start.getLine());
 
         return htmlBodyWithDiv;
     }
@@ -1406,7 +1412,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         } else if (ctx.IDENTIFIER() != null) {
             value.setType("Identifier");
             value.setValue(ctx.IDENTIFIER().getText());
-            semanticCheck.checkIfVariableUsedNotDefined(ctx.IDENTIFIER().getText(), symbolTable.getScopeId());
+            semanticCheck.checkIfVariableUsedNotDefined(ctx.IDENTIFIER().getText(), symbolTable.getScopeId(), ctx.start.getLine());
         }
         return value;
 

@@ -1,16 +1,16 @@
 
 import React, { useEffect, useState } from "react";
 
-const [name, setName] = useState(""); // Error: Hook: (useState("");) is not inside a function component at the top level
+const [name, setName] = useState(""); // Line 4: (Error: Hook: (useState("");) is not inside a function component at the top level).
 
 function MyComponent({ items, setItems }) {
 
     const [searchTerm, setSearchTerm] = useState("");
 
     if (true) {
-         useEffect(() => {
+         useEffect(() => { // Line 11: (Error: Hook: (useEffect(()=>{},[searchTerm]);) is not inside a function component at the top level).
 
-          }, [searchTerm]); // Error: Hook: (useEffect(()=>{},[searchTerm]);) is not inside a function component at the top level
+          }, [searchTerm]);
     }
 
     return (

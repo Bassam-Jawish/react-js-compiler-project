@@ -1,14 +1,9 @@
 package ErrorHandling;
 
-
-import AST.expression.Expression;
 import AST.program.Program;
 import SymbolTableStructure.Row;
 import SymbolTableStructure.SymbolTable;
-import SymbolTableStructure.SymbolTable2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -167,6 +162,7 @@ public class SemanticCheck {
             int cur = 0;
             checkScopes.push(new HashMap<>());
             for (Row row : variables) {
+                int line = row.getLine();
                 int scopeId = row.getScopeId();
                 String name = row.getVariableName();
                 while (cur < scopeId) {
@@ -180,7 +176,7 @@ public class SemanticCheck {
                 Map<String, Integer> top = checkScopes.peek();
                 if (top.getOrDefault(name, 0) > 0) {
                     // Error
-                    Errors.add("Error: Variable '" + name + "' is already defined in scope " + scopeId);
+                    Errors.add("Line "+ line + ": (Error: Variable '" + name + "' is already defined in scope " + scopeId + ").");
                 } else {
                     top.put(name, top.getOrDefault(name, 0) + 1);
                 }
@@ -239,7 +235,7 @@ public class SemanticCheck {
 //        }
     }
 
-    public void checkIfVariableUsedNotDefined(String variableUsedName, int variableUsedScope) {
+    public void checkIfVariableUsedNotDefined(String variableUsedName, int variableUsedScope, int line) {
         boolean isDefined = false;
         String type  = "";
         for (int scope = variableUsedScope; scope >= 0; scope--) {
@@ -250,46 +246,50 @@ public class SemanticCheck {
             }
         }
         if (!isDefined) {
-            Errors.add("Error: Variable '" + variableUsedName + "' is used in scope " + variableUsedScope + " but not defined above in this scope or at the top levels");
+            Errors.add("Line "+ line + ": (Error: Variable '" + variableUsedName + "' is used in scope " + variableUsedScope + " but not defined above in this scope or at the top levels).");
         } else if (type.equals("const")) {
             this.usedConstVariables.put(variableUsedName, true);
         }
     }
 
-    public void checkIfVariableIsConst(String variableUsedName) {
+    public void checkIfVariableIsConst(String variableUsedName, int line) {
         if (this.usedConstVariables.getOrDefault(variableUsedName, false)) {
-            Errors.add("Error: You cannot assign a value to a constant variable: " + variableUsedName);
+            Errors.add("Line "+ line + ": (Error: You cannot assign a value to a constant variable: " + variableUsedName + ").");
         }
     }
 
-    public void checkIfTwoTagsAreNotEquals(String tagOne, String tagTwo) {
+    public void checkIfTwoTagsAreNotEquals(String tagOne, String tagTwo, int line) {
         if (!tagOne.equals(tagTwo)) {
-            Errors.add("Error: Open Tag: (" + tagOne + ") doesn't equal Closed Tag: (" + tagTwo + ")");
+            Errors.add("Line "+ line + ": (Error: Open Tag: (" + tagOne + ") doesn't equal Closed Tag: (" + tagTwo + ")).");
         }
     }
 
-    public void checkHooksTopLevel(int scope, String hook) {
+    public void checkHooksTopLevel(int scope, String hook, int line) {
         if (scope != 1 || functionComponentScope != 1) {
-            Errors.add("Error: Hook: (" + hook + ") is not inside a function component at the top level");
+            Errors.add("Line "+ line + ": (Error: Hook: (" + hook + ") is not inside a function component at the top level).");
         }
     }
 
-    public void checkIfHooksAreImported(String hookType) {
+    public void checkIfHooksAreImported(String hookType, int line) {
         if (!isUseStateImported && hookType.equals("UseState")) {
-            Errors.add("Error: UseState is used but not imported!");
+            Errors.add("Line "+ line + ": (Error: UseState is used but not imported!).");
         } else if (!isUseEffectImported && hookType.equals("UseEffect")) {
-            Errors.add("Error: UseEffect is used but not imported!");
+            Errors.add("Line "+ line + ": (Error: UseEffect is used but not imported!).");
         } else if (!isUseRefImported && hookType.equals("UseRef")) {
-            Errors.add("Error: UseRef is used but not imported!");
+            Errors.add("Line "+ line + ": (Error: UseRef is used but not imported!).");
         } else if (!isReactImported && hookType.equals("CreateElement")) {
-            Errors.add("Error: CreateElement (Pure React) is used but not imported!");
+            Errors.add("Line "+ line + ": (Error: CreateElement (Pure React) is used but not imported!).");
         }
     }
 
     private void printErrors() {
-        for (String errors : Errors) {
-            System.out.println(errors);
+        if (!Errors.isEmpty()) {
+            System.out.println("Semantic Check Errors:");
+            for (String errors : Errors) {
+                System.out.println(errors);
+            }
         }
+
     }
 
     public void checkLine() {
