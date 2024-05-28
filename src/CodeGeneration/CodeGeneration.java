@@ -1,3 +1,4 @@
+/*
 package CodeGeneration;
 
 import AST.program.Program;
@@ -61,3 +62,4 @@ public class CodeGeneration {
                 "</style>\n";
     }
 }
+*/

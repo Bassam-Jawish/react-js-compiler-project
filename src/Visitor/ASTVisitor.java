@@ -56,7 +56,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         for (ReactjsParser.StatementContext stat : ctx.statement()) {
             st.add((Statement) visit(stat));
         }
-        p.generateOutputFiles();
 
         p.setStatements(st);
 
@@ -194,8 +193,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         importStatement.setImportDeclaration((ImportDeclaration) visit(ctx.importDeclaration()));
 
-        //importStatement.convertToHtml();
-
         return importStatement;
     }
 
@@ -223,7 +220,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         if (ctx.IDENTIFIER() != null) {
             importDefaultSpecifier.setType(ctx.IDENTIFIER().getText());
-            semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER().getText());
+            semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER().getText(), symbolTable.getScopeId(), "import");
         } else if (ctx.STRING() != null) {
             importDefaultSpecifier.setType(ctx.STRING().getText());
         } else if (ctx.REACT() != null) {
@@ -263,8 +260,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         }
         importNamedSpecifier.setImportSpecifiers(importSpecifiers);
 
-        importNamedSpecifier.convertToHtml();
-
         return importNamedSpecifier;
 
     }
@@ -282,8 +277,10 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         } else {
             if (!ctx.IDENTIFIER().isEmpty()) {
                 importSpecifier.setType(ctx.IDENTIFIER(0).getText());
+                semanticCheck.setOneDeclaredVariable(ctx.IDENTIFIER(0).getText(), symbolTable.getScopeId(), "import");
             } else if (ctx.USE_STATE() != null) {
                 importSpecifier.setType(ctx.USE_STATE().getText());
+                semanticCheck.setUseStateImported(true);
             } else if (ctx.USE_EFFECT() != null) {
                 importSpecifier.setType(ctx.USE_EFFECT().getText());
                 semanticCheck.setUseEffectImported(true);
@@ -295,8 +292,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
                 semanticCheck.setReactImported(true);
             }
         }
-        importSpecifier.convertToHtml();
-
         return importSpecifier;
     }
 
@@ -351,25 +346,21 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             classDeclaration.setExtendedClassName(extendedClass);
         }
 
-        List<Statement> st = new ArrayList<>();
-        for (ReactjsParser.StatementContext state : ctx.statement()) {
-            if (ctx.statement() != null)
-                st.add((Statement) visit(state));
-        }
-        classDeclaration.setStatements(st);
+        BlockStatement blockStatement = new BlockStatement();
+        classDeclaration.setBlockStatement(blockStatement);
 
         // Symbol Table
         Row row = new Row();
+        row.setLine(ctx.start.getLine());
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(classDeclaration.getClassName());
         row.setType("");
-        row.setValue(classDeclaration.getStatements().toString());
+        row.setValue(classDeclaration.getBlockStatement().toString());
         this.symbolTable.addVariable(row);
 
         // Symbol Table 2
-        s.addVariable(classDeclaration.getClassName(), classDeclaration.getStatements().toString());
+        s.addVariable(classDeclaration.getClassName(), classDeclaration.getBlockStatement().toString());
 
-        symbolTable.exitScope();
         return classDeclaration;
     }
 
@@ -418,6 +409,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // Symbol Table
         Row row = new Row();
+        row.setLine(ctx.start.getLine());
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(variableDeclarationConst.getVariableType().toString());
         row.setType("");
@@ -698,6 +690,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         // Symbol Table
         Row row = new Row();
+        row.setLine(ctx.start.getLine());
         row.setScopeid(symbolTable.getScopeId());
         row.setVariableName(normalFunction.getFunctionName());
         row.setValue(normalFunction.getBlockStatement().toString());
@@ -836,6 +829,8 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
     @Override
     public MemberDotExpression visitMemberDotExpression(ReactjsParser.MemberDotExpressionContext ctx) {
         MemberDotExpression memberDotExpression = new MemberDotExpression();
+
+        semanticCheck.setOneDeclaredVariable(ctx.expression(1).getText(), symbolTable.getScopeId(), "MemberDotExpression");
 
         Expression leftExpression = (Expression) visit(ctx.expression(0));
         Expression rightExpression = (Expression) visit(ctx.expression(1));
@@ -1057,6 +1052,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
     @Override
     public Object visitHookExpression(ReactjsParser.HookExpressionContext ctx) {
+        semanticCheck.checkHooksTopLevel(symbolTable.getScopeId(), ctx.hook().getText(), ctx.start.getLine());
         return visit(ctx.hook());
     }
 
@@ -1111,8 +1107,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             values.add((Value) visitValue(valueContext));
         }
         useRefHook.setValues(values);
-        useRefHook.convertToHtml();
-
         return useRefHook;
 
     }
@@ -1126,9 +1120,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             values.add((Value) visitValue(valueContext));
         }
         useRefHook.setValues(values);
-
-        useRefHook.convertToHtml();
-
         return useRefHook;
     }
 
@@ -1170,6 +1161,7 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
 
         List<Expression> expressions = new ArrayList<>();
         for (ReactjsParser.ExpressionContext expressionContext : ctx.expression()) {
+            semanticCheck.setOneDeclaredVariable(expressionContext.getText(), symbolTable.getScopeId(), "expression arrow");
             expressions.add((Expression) visit(expressionContext));
         }
         expressionPar.setExpression(expressions);
@@ -1213,11 +1205,14 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
             htmlBodyWithDiv.setJsxContent(jsxContent);
         }
 
-        if (ctx.IDENTIFIER(1) != null) {
-            htmlBodyWithDiv.setCloseTagName(ctx.IDENTIFIER(1).toString());
-        }
-
-        semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString());
+        if (ctx.IDENTIFIER(0) == null && ctx.IDENTIFIER(1) == null) {
+            semanticCheck.checkIfTwoTagsAreNotEquals("", "", ctx.start.getLine());
+        } else if (ctx.IDENTIFIER(0) == null) {
+            semanticCheck.checkIfTwoTagsAreNotEquals("", ctx.IDENTIFIER(1).toString(), ctx.start.getLine());
+        } else if (ctx.IDENTIFIER(1) == null) {
+            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), "", ctx.start.getLine());
+        } else
+            semanticCheck.checkIfTwoTagsAreNotEquals(ctx.IDENTIFIER(0).toString(), ctx.IDENTIFIER(1).toString(), ctx.start.getLine());
 
         return htmlBodyWithDiv;
     }

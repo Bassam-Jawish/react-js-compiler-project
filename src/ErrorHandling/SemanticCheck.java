@@ -1,20 +1,23 @@
 package ErrorHandling;
 
-
 import AST.program.Program;
 import SymbolTableStructure.Row;
 import SymbolTableStructure.SymbolTable;
-import SymbolTableStructure.SymbolTable2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 public class SemanticCheck {
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // List of Errors
     public static List<String> Errors = new ArrayList<>();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Symbol table
 
     SymbolTable symbolTable = new SymbolTable();
 
@@ -38,6 +41,7 @@ public class SemanticCheck {
         this.checkScopes = checkScopes;
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // checkIfVariableUsedNotDefined
 
@@ -107,8 +111,8 @@ public class SemanticCheck {
         return isUseStateImported;
     }
 
-    public void setOneDeclaredVariable(String variableName) {
-        this.declaredVariables.put(variableName, true);
+    public void setUseStateImported(Boolean useStateImported) {
+        isUseStateImported = useStateImported;
     }
 
     public Boolean getUseEffectImported() {
@@ -127,6 +131,8 @@ public class SemanticCheck {
         isUseRefImported = useRefImported;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public void check(Program program) {
         try {
             String fileName = "test/semantic.txt";
@@ -134,8 +140,6 @@ public class SemanticCheck {
 
             // Error Handling
             checkIfVariableAlreadyDefined();
-            checkHooksTopLevel();
-            // checkLine();
 
             // print Errors
             printErrors();
@@ -158,6 +162,7 @@ public class SemanticCheck {
             int cur = 0;
             checkScopes.push(new HashMap<>());
             for (Row row : variables) {
+                int line = row.getLine();
                 int scopeId = row.getScopeId();
                 String name = row.getVariableName();
                 while (cur < scopeId) {
@@ -168,13 +173,12 @@ public class SemanticCheck {
                     checkScopes.pop();
                     cur--;
                 }
-                Map<String, Integer> top = checkScopes.isEmpty() ? new HashMap<>() : checkScopes.peek();
+                Map<String, Integer> top = checkScopes.peek();
                 if (top.getOrDefault(name, 0) > 0) {
                     // Error
-                    Errors.add("Error: Variable '" + name + "' is already defined in scope " + scopeId);
+                    Errors.add("Line "+ line + ": (Error: Variable '" + name + "' is already defined in scope " + scopeId + ").");
                 } else {
                     top.put(name, top.getOrDefault(name, 0) + 1);
-                    checkScopes.push(top);
                 }
             }
         }
