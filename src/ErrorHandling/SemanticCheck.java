@@ -26,7 +26,7 @@ public class SemanticCheck {
         this.symbolTable = symbolTable;
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     // checkIfVariableUsedNotDefined
     Stack<Map<String, Integer>> checkScopes = new Stack<>();
 
@@ -41,32 +41,90 @@ public class SemanticCheck {
 
     // checkIfVariableUsedNotDefined
 
-    private Map<String, Boolean> declaredVariables = new HashMap<>();
+    private Map<String, String> declaredVariables = new HashMap<>();
+    {
+        declaredVariables.put("map@0", "function");
+        declaredVariables.put("toLowerCase@0", "function");
+        declaredVariables.put("includes@0", "function");
+        declaredVariables.put("filter@0", "function");
+        declaredVariables.put("prevSeconds@0", "function");
+        declaredVariables.put("setInterval@0", "function");
+        declaredVariables.put("clearInterval@0", "function");
+        declaredVariables.put("focus@0", "function");
+    }
 
-    public Map<String, Boolean> getDeclaredVariables() {
+    public Map<String, String> getDeclaredVariables() {
         return declaredVariables;
     }
 
-    public void setDeclaredVariables(Map<String, Boolean> declaredVariables) {
-        declaredVariables = declaredVariables;
+    public void setDeclaredVariables(Map<String, String> declaredVariables) {
+        this.declaredVariables = declaredVariables;
+    }
+
+    public void setOneDeclaredVariable(String variableName, int scopeId, String type) {
+        this.declaredVariables.put(variableName + "@" + scopeId, type);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // checkIfVariableIsDefinedAndConst
+    private final Map<String, Boolean> usedConstVariables = new HashMap<>();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // checkHooksTopLevel
+    private int functionComponentScope = 0;
+
+    public int getFunctionComponentScope() {
+        return functionComponentScope;
+    }
+
+    public void setFunctionComponentScope(int functionComponentScope) {
+        this.functionComponentScope = functionComponentScope;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // checkIfHooksAreImported
+    public Boolean isReactImported = false;
+
+    public Boolean isUseStateImported = false;
+
+    public Boolean isUseEffectImported = false;
+
+    public Boolean isUseRefImported = false;
+
+    public Boolean getReactImported() {
+        return isReactImported;
+    }
+
+    public void setReactImported(Boolean reactImported) {
+        isReactImported = reactImported;
+    }
+
+    public Boolean getUseStateImported() {
+        return isUseStateImported;
     }
 
     public void setOneDeclaredVariable(String variableName) {
         this.declaredVariables.put(variableName, true);
     }
 
-    private Map<String, Boolean> declaredConstVariables = new HashMap<>();
-
-    public Map<String, Boolean> getDeclaredConstVariables() {
-        return declaredConstVariables;
+    public Boolean getUseEffectImported() {
+        return isUseEffectImported;
     }
 
-    public void setDeclaredConstVariables(Map<String, Boolean> declaredConstVariables) {
-        declaredConstVariables = declaredConstVariables;
+    public void setUseEffectImported(Boolean useEffectImported) {
+        isUseEffectImported = useEffectImported;
     }
 
-    public void setOneDeclaredConstVariable(String variableName) {
-        this.declaredConstVariables.put(variableName, true);
+    public Boolean getUseRefImported() {
+        return isUseRefImported;
+    }
+
+    public void setUseRefImported(Boolean useRefImported) {
+        isUseRefImported = useRefImported;
     }
 
     public void check(Program program) {
@@ -173,37 +231,62 @@ public class SemanticCheck {
 //        }
     }
 
-    public void checkIfVariableUsedNotDefined(String variableUsedName) {
-        if (!this.declaredVariables.getOrDefault(variableUsedName, false)) {
-            Errors.add("Error: Variable '" + variableUsedName + "' is used but not defined.");
+    public void checkIfVariableUsedNotDefined(String variableUsedName, int variableUsedScope, int line) {
+        boolean isDefined = false;
+        String type  = "";
+        for (int scope = variableUsedScope; scope >= 0; scope--) {
+            if (declaredVariables.containsKey(variableUsedName + "@" + scope)) {
+                isDefined = true;
+                type = declaredVariables.get(variableUsedName + "@" + scope);
+                break;
+            }
+        }
+        if (!isDefined) {
+            Errors.add("Line "+ line + ": (Error: Variable '" + variableUsedName + "' is used in scope " + variableUsedScope + " but not defined above in this scope or at the top levels).");
+        } else if (type.equals("const")) {
+            this.usedConstVariables.put(variableUsedName, true);
         }
     }
 
-    public void checkIfVariableIsConst(String variableUsedName) {
-        if (!this.declaredConstVariables.getOrDefault(variableUsedName, false) && this.declaredVariables.getOrDefault(variableUsedName, false)) {
-            Errors.add("Error: You cannot assign a value to a constant variable");
+    public void checkIfVariableIsConst(String variableUsedName, int line) {
+        if (this.usedConstVariables.getOrDefault(variableUsedName, false)) {
+            Errors.add("Line "+ line + ": (Error: You cannot assign a value to a constant variable: " + variableUsedName + ").");
         }
     }
 
-    public void checkIfTwoTagsAreNotEquals(String tagOne, String tagTwo) {
+    public void checkIfTwoTagsAreNotEquals(String tagOne, String tagTwo, int line) {
         if (!tagOne.equals(tagTwo)) {
-            Errors.add("Error: Open Tag: (" + tagOne + ") doesn't equal Closed Tag: (" + tagTwo + ")");
-        } else {
-            Errors.add("Error: Tags are empty");
+            Errors.add("Line "+ line + ": (Error: Open Tag: (" + tagOne + ") doesn't equal Closed Tag: (" + tagTwo + ")).");
         }
     }
 
+    public void checkHooksTopLevel(int scope, String hook, int line) {
+        if (scope != 1 || functionComponentScope != 1) {
+            Errors.add("Line "+ line + ": (Error: Hook: (" + hook + ") is not inside a function component at the top level).");
+        }
+    }
 
-    public void checkHooksTopLevel() {
-
+    public void checkIfHooksAreImported(String hookType, int line) {
+        if (!isUseStateImported && hookType.equals("UseState")) {
+            Errors.add("Line "+ line + ": (Error: UseState is used but not imported!).");
+        } else if (!isUseEffectImported && hookType.equals("UseEffect")) {
+            Errors.add("Line "+ line + ": (Error: UseEffect is used but not imported!).");
+        } else if (!isUseRefImported && hookType.equals("UseRef")) {
+            Errors.add("Line "+ line + ": (Error: UseRef is used but not imported!).");
+        } else if (!isReactImported && hookType.equals("CreateElement")) {
+            Errors.add("Line "+ line + ": (Error: CreateElement (Pure React) is used but not imported!).");
+        }
     }
 
     private void printErrors() {
-        for (String errors : Errors) {
-            System.out.println(errors);
+        if (!Errors.isEmpty()) {
+            System.out.println("Semantic Check Errors:");
+            for (String errors : Errors) {
+                System.out.println(errors);
+            }
         }
-    }
 
+    }
 
     public void checkLine() {
         boolean isError = false;

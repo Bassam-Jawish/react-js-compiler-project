@@ -91,7 +91,7 @@ exportDeclaration: EXPORT (variableStatement | classDeclaration | functionDeclar
 // class
 
 // class s {}
-classDeclaration : CLASS IDENTIFIER (EXTENDS expression)? OPEN_BRACE statement* CLOSE_BRACE
+classDeclaration : CLASS IDENTIFIER (EXTENDS expression)? block
                  ;
 
 ///////////////////////////////////////////////////////////////////////

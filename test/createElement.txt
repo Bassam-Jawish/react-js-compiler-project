@@ -1,4 +1,28 @@
-// React.createElement usage
+// Import necessary modules
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const Expenses = (props) => {
+  return (
+    <div>
+      {props.items.map((expense, index) => (
+        <div key={index}>
+          <h3>{expense.title}</h3>
+          <p>Amount: ${expense.amount}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Define some sample expense items
+const expenses = [
+  { title: 'Groceries', amount: 50 },
+  { title: 'Rent', amount: 1000 },
+  { title: 'Utilities', amount: 150 },
+];
+
+// Create the element tree using React.createElement
 const element = React.createElement(
   'div',
   {},

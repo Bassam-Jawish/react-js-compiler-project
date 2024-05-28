@@ -9,12 +9,21 @@ public class ClassDeclaration extends Statement {
 
     private String className;
     private Expression extendedClass;
-    private List<Statement> statements;
+
+    private BlockStatement blockStatement;
+
+    public BlockStatement getBlockStatement() {
+        return blockStatement;
+    }
+
+    public void setBlockStatement(BlockStatement blockStatement) {
+        this.blockStatement = blockStatement;
+    }
 
     public ClassDeclaration() {
         this.className = className;
         this.extendedClass = extendedClass;
-        this.statements = statements;
+        this.blockStatement = blockStatement;
     }
 
     public String getClassName() {
@@ -33,13 +42,6 @@ public class ClassDeclaration extends Statement {
         this.extendedClass = extendedClass;
     }
 
-    public List<Statement> getStatements() {
-        return statements;
-    }
-
-    public void setStatements(List<Statement> statements) {
-        this.statements = statements;
-    }
 
     @Override
     public String toString() {
@@ -48,15 +50,13 @@ public class ClassDeclaration extends Statement {
         if (extendedClass != null) {
             stringBuilder.append("Extends: ").append(extendedClass).append("\n");
         }
-        if (statements.isEmpty()) {
+        if (blockStatement == null) {
             stringBuilder.append("Class Body: {}");
         }
         else {
             stringBuilder.append("Class Body: {\n");
             Space.currentValue++;
-            for (Statement statement : statements) {
-                stringBuilder.append("\t".repeat(Space.currentValue)).append(statement.toString()).append("\n");
-            }
+            stringBuilder.append("\t".repeat(Space.currentValue)).append(blockStatement.toString()).append("\n");
             Space.currentValue--;
             stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
         }
