@@ -1,0 +1,16 @@
+var x = 1;
+
+function MyComponent() {
+    var y = 0;
+    if (true) {
+        let count = 1;
+    }
+    var y = 2; // Line 8: (Error: Variable 'y' is already defined in scope 1).
+    return (
+        <div>
+            <p>{x}</p>
+        </div>
+    );
+}
+
+var x = 3; // Line 16: (Error: Variable 'x' is already defined in scope 0).

@@ -1,0 +1,20 @@
+let x = 1;
+let y = 1;
+function MyComponent() {
+    console.log(count); // Line 4: (Error: Variable 'count' is used in scope 1 but not defined above in this scope or at the top levels).
+    let count = 0;
+    if (true) {
+        count = 2;
+        z = 3; // Line 8: (Error: Variable 'z' is used in scope 2 but not defined above in this scope or at the top levels).
+        let k = 4
+    }
+    x = 2
+    var x = 0;
+    return (
+        <div>
+            <p>{count}</p>
+        </div>
+    );
+}
+
+k = 2; // Line 20: (Error: Variable 'k' is used in scope 0 but not defined above in this scope or at the top levels).
