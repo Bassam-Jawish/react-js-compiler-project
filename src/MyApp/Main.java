@@ -2,10 +2,12 @@ package MyApp;
 
 
 import AST.program.Program;
+import CodeGeneration.CodeGeneration;
 import ErrorHandling.SemanticCheck;
 import Visitor.ASTVisitor;
 import antlr.ReactjsLexer;
 import antlr.ReactjsParser;
+import org.antlr.v4.codegen.CodeGenerator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -23,7 +25,7 @@ public class Main {
             // String path = "test/test.txt";
             // String path = "test/test2.txt";
             // String path = "test/test3.txt";
-            // String path = "test/test_interview.txt";
+             String path = "test/test_interview.txt";
             // String path = "test/useState.txt";
             // String path = "test/useEffect.txt";
             // String path = "test/useReference.txt";
@@ -33,13 +35,12 @@ public class Main {
             // String path = "test/expressions.txt";
 
             // Semantic Check Errors Test
-             String path = "test/error_handling_test/checkIfVariableAlreadyDefinedTest.txt";
+            // String path = "test/error_handling_test/checkIfVariableAlreadyDefinedTest.txt";
             // String path = "test/error_handling_test/checkIfVariableUsedNotDefinedTest.txt";
             // String path = "test/error_handling_test/checkIfVariableIsConstTest.txt";
             // String path = "test/error_handling_test/checkIfTwoTagsAreNotEqualsTest.txt";
             // String path = "test/error_handling_test/checkHooksTopLevelTest.txt";
             // String path = "test/error_handling_test/checkIfHooksAreImportedTest.txt";
-
 
             CharStream input = fromFileName(path);
             ReactjsLexer lexer = new ReactjsLexer(input);
@@ -53,6 +54,8 @@ public class Main {
             System.out.println(astVisitor.getSymbolTable().toString());
             semanticCheck.setSymbolTable(astVisitor.getSymbolTable());
             semanticCheck.check(program);
+            CodeGeneration codeGeneration = new CodeGeneration();
+            codeGeneration.generate(program);
         }
         catch (IOException e) {
             e.printStackTrace();

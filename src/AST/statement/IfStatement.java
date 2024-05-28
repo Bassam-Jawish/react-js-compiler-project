@@ -43,6 +43,10 @@ public class IfStatement extends Statement {
         return stringBuilder.toString();
     }
 
+    public String generate() {
+        return  "sdfd";
+    }
+
     public Expression getCondition() {
         return condition;
     }

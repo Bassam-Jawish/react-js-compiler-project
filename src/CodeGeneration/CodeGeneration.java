@@ -1,26 +1,34 @@
 package CodeGeneration;
 
-
 import AST.program.Program;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class generator {
-    int pages = 1, inputs = 0;
+public class CodeGeneration {
 
-    // code
+    public CodeGeneration() {}
 
-    /*-----------------------------To Be Continued----------------------------------------------------------------*/
-
-    private void generate(String s, FileWriter fw) {
+    public void generate(Program program) {
         try {
-//            System.out.print(s);
-            fw.append(s);
+            FileWriter codeWriter = new FileWriter("output.php");
+            String generatedCode = program.generate();
+            codeWriter.append(generatedCode);
+
+
+
+
         } catch (IOException e) {
             System.out.println("error" + e.getMessage());
         }
     }
+
+
+
+
+
+
+
 
     String maa(String maav) {
         if (maav == "MainAxisAlignment.start")

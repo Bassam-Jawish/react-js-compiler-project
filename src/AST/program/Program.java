@@ -26,8 +26,15 @@ public class Program {
         StringBuilder stringBuilder = new StringBuilder();
         for (Statement statement : statements)
         {
-
             stringBuilder.append(statement.toString()).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    public String generate() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Statement statement : statements) {
+           //stringBuilder.append(statement.generate()).append("\n");
         }
         return stringBuilder.toString();
     }

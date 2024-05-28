@@ -6,9 +6,7 @@ public class Row {
     private String type;
     private String value;
     private int scopeId = 0;
-
     public Row() {}
-
 
     public int getLine() {
         return line;
