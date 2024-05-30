@@ -55,6 +55,7 @@ public class Program {
             htmlBuilder.append(statement.convertToHtml()).append("\n");
         }
 
+        htmlBuilder.append("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\"></script>");
         htmlBuilder.append("<script src=\"script.js\"></script>\n");
         htmlBuilder.append("</body>\n");
         htmlBuilder.append("</html>");
