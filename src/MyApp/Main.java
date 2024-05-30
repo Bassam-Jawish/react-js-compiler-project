@@ -2,6 +2,7 @@ package MyApp;
 
 
 import AST.program.Program;
+import CodeGeneration.Generation;
 import ErrorHandling.SemanticCheck;
 import Visitor.ASTVisitor;
 import antlr.ReactjsLexer;
@@ -23,7 +24,7 @@ public class Main {
             // String path = "test/test.txt";
             // String path = "test/test2.txt";
             // String path = "test/test3.txt";
-             String path = "test/test_interview.txt";
+              String path = "test/test_interview.txt";
             // String path = "test/useState.txt";
             // String path = "test/useEffect.txt";
             // String path = "test/useReference.txt";
@@ -49,12 +50,11 @@ public class Main {
             ASTVisitor astVisitor = new ASTVisitor(semanticCheck);
             Program program = (astVisitor.visitProgram(tree));
             System.out.println(program);
-            program.generateOutputFiles();
             System.out.println(astVisitor.getSymbolTable().toString());
             semanticCheck.setSymbolTable(astVisitor.getSymbolTable());
             semanticCheck.check(program);
-           /* CodeGeneration codeGeneration = new CodeGeneration();
-            codeGeneration.generate(program);*/
+            Generation codeGeneration = new Generation();
+            codeGeneration.generateOutputFiles(program);
         }
         catch (IOException e) {
             e.printStackTrace();

@@ -28,76 +28,54 @@ public class Program {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Statement statement : statements)
-        {
+        for (Statement statement : statements) {
 
             stringBuilder.append(statement.toString()).append("\n");
         }
         return stringBuilder.toString();
     }
 
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
 
-    public void generateOutputFiles() {
-        String outputDir = "src/OutputFiles/";
+        htmlBuilder.append("<!-- output.html -->\n");
+        htmlBuilder.append("<!DOCTYPE html>\n");
+        htmlBuilder.append("<html>\n");
+        htmlBuilder.append("<head>\n");
+        htmlBuilder.append("<meta charset=\"UTF-8\">\n");
+        htmlBuilder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
+        htmlBuilder.append("<title>Output Page</title>\n");
+        htmlBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">\n");
+        htmlBuilder.append("</head>\n");
+        htmlBuilder.append("<body>\n");
 
-        try {
-            // Create output directory if it doesn't exist
-            Files.createDirectories(Paths.get(outputDir));
-
-            // Define file paths for HTML, CSS, and JS
-            String htmlFilePath = outputDir + "output.html";
-            String cssFilePath = outputDir + "styles.css";
-            String jsFilePath = outputDir + "script.js";
-
-            // FileWriter instances for HTML, CSS, and JS files
-            FileWriter htmlWriter = new FileWriter(htmlFilePath);
-            FileWriter cssWriter = new FileWriter(cssFilePath);
-            FileWriter jsWriter = new FileWriter(jsFilePath);
-
-            // Start HTML content with the basic structure
-            htmlWriter.write("<!DOCTYPE html>\n");
-            htmlWriter.write("<html>\n");
-            htmlWriter.write("<head>\n");
-            htmlWriter.write("<meta charset=\"UTF-8\">\n");
-            htmlWriter.write("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
-            htmlWriter.write("<title>Output Page</title>\n");
-            htmlWriter.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">\n");
-            htmlWriter.write("</head>\n");
-            htmlWriter.write("<body>\n");
-
-            // Write contents from statements to HTML, CSS, and JS files
-            for (Statement statement : statements)
-            {
-                String htmlContent = statement.convertToHtml();
-                if (htmlContent != null && !htmlContent.isEmpty()) {
-                    htmlWriter.write(htmlContent + "\n");
-                }
-
-                String cssContent = statement.convertToCss();
-                if (cssContent != null && !cssContent.isEmpty()) {
-                    cssWriter.write(cssContent + "\n");
-                }
-
-                String jsContent = statement.convertToJs();
-                if (jsContent != null && !jsContent.isEmpty()) {
-                    jsWriter.write(jsContent + "\n");
-                }
-            }
-
-            // End the HTML structure
-            htmlWriter.write("<script src=\"script.js\"></script>\n");
-            htmlWriter.write("</body>\n");
-            htmlWriter.write("</html>");
-
-            // Close all writers
-            htmlWriter.close();
-            cssWriter.close();
-            jsWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Statement statement : statements) {
+            htmlBuilder.append(statement.convertToHtml()).append("\n");
         }
+
+        htmlBuilder.append("<script src=\"script.js\"></script>\n");
+        htmlBuilder.append("</body>\n");
+        htmlBuilder.append("</html>");
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        cssBuilder.append("/* styles.css */\n");
+        for (Statement statement : statements) {
+            cssBuilder.append(statement.convertToCss()).append("\n");
+        }
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("// script.js\n");
+        for (Statement statement : statements) {
+            jsBuilder.append(statement.convertToJs()).append("\n");
+        }
+        return jsBuilder.toString();
     }
 }

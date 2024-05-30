@@ -42,25 +42,31 @@ public class  BlockStatement extends Statement {
 
     @Override
     public String convertToHtml() {
-        return "";
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<div>\n");
+        for (Statement statement : statements) {
+            htmlBuilder.append(statement.convertToHtml()).append("\n");
+        }
+        htmlBuilder.append("</div>");
+        return htmlBuilder.toString();
     }
 
     @Override
     public String convertToCss() {
-        return "";
+        StringBuilder cssBuilder = new StringBuilder();
+        for (Statement statement : statements) {
+            cssBuilder.append(statement.convertToCss()).append("\n");
+        }
+        return cssBuilder.toString();
     }
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        for (Statement statement : statements) {
+            jsBuilder.append(statement.convertToJs()).append("\n");
+        }
+        return jsBuilder.toString();
     }
 
-    /*
-    public void execute() {
-        // Implement logic to execute each statement within the block
-        for (Statement statement : statements) {
-            statement.execute();
-        }
-    }
-    */
 }

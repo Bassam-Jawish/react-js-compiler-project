@@ -46,8 +46,7 @@ public class ImportStatement extends Statement {
 
     @Override
     public String convertToCss() {
-        return "/* styles.css */\n"
-                + "#import-statement {\n"
+        return  "#import-statement {\n"
                 + "    font-family: Arial, sans-serif;\n"
                 + "    margin: 20px;\n"
                 + "    padding: 10px;\n"
@@ -61,8 +60,7 @@ public class ImportStatement extends Statement {
 
     @Override
     public String convertToJs() {
-        return "// script.js\n"
-                + "document.addEventListener('DOMContentLoaded', function() {\n"
+        return  "document.addEventListener('DOMContentLoaded', function() {\n"
                 + "    const importStatementDiv = document.getElementById('import-statement');\n"
                 + "    if (importStatementDiv) {\n"
                 + "        importStatementDiv.innerHTML = `<div class=\"import-statement\">\n"
