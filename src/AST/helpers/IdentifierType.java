@@ -36,6 +36,7 @@ public class IdentifierType extends VariableType{
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(identifier);
         return jsBuilder.toString();
     }
 }

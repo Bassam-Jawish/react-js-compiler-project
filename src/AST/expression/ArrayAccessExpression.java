@@ -34,6 +34,6 @@ public class ArrayAccessExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return arrayAccess != null ? arrayAccess.convertToJs() : "";
     }
 }

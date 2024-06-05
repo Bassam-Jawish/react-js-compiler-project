@@ -51,6 +51,15 @@ public class FunctionCall extends Statement{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(functionName).append("(");
+        for (int i = 0; i < expressions.size(); i++) {
+            jsBuilder.append(expressions.get(i).convertToJs());
+            if (i < expressions.size() - 1) {
+                jsBuilder.append(", ");
+            }
+        }
+        jsBuilder.append(");");
+        return jsBuilder.toString();
     }
 }

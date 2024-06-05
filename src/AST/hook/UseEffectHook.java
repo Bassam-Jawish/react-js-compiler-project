@@ -40,11 +40,7 @@ public class UseEffectHook extends Hook{
 
     @Override
     public String convertToHtml() {
-        // Convert the UseEffectHook to HTML representation
         StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<div class=\"useEffectHook\">");
-        htmlBuilder.append("<p>").append(toString()).append("</p>");
-        htmlBuilder.append("</div>");
         return htmlBuilder.toString();
     }
 
@@ -55,6 +51,12 @@ public class UseEffectHook extends Hook{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder js = new StringBuilder();
+        js.append("useEffect(").append(arrowFunction.convertToJs());
+        if (arrayDeclaration != null) {
+            js.append(", ").append(arrayDeclaration.convertToJs());
+        }
+        js.append(");\n");
+        return js.toString();
     }
 }

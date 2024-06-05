@@ -64,6 +64,7 @@ public class MemberDotExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        String operator = isOptionalChaining ? "?." : ".";
+        return leftExpression.convertToJs() + operator + rightExpression.convertToJs();
     }
 }

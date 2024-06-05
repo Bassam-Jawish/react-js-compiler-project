@@ -82,6 +82,32 @@ public class FunctionCreateElement extends Statement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder js = new StringBuilder();
+
+        // Create the element
+        if (value != null) {
+            js.append("var ").append(value.toString().replace("'", "")).append(" = document.createElement('").append(value.toString().replace("'", "")).append("');\n");
+        }
+
+        // Handle attributes if necessary
+        if (objectDeclarationTY != null) {
+            // Assuming objectDeclarationTY can be converted to a set of attributes
+            // js.append(objectDeclarationTY.toJs());
+        }
+
+        // Handle children elements
+        if (createFunctionParams != null && !createFunctionParams.isEmpty()) {
+            for (CreateFunctionParams param : createFunctionParams) {
+                js.append(param.convertToJs());
+                if (param.getValue() != null) {
+                    js.append(value.toString().replace("'", "")).append(".appendChild(").append(param.getValue().toString().replace("'", "")).append(");\n");
+                } else if (param.getFunctionCreateElement() != null) {
+                    String childElement = param.getFunctionCreateElement().getValue().toString().replace("'", "");
+                    js.append(value.toString().replace("'", "")).append(".appendChild(").append(childElement).append(");\n");
+                }
+            }
+        }
+
+        return js.toString();
     }
 }

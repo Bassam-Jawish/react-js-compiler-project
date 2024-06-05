@@ -57,6 +57,10 @@ public class DoStatement extends IterationStatement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("do {\n");
+        jsBuilder.append(statement.convertToJs());
+        jsBuilder.append("} while (").append(expression.convertToJs()).append(");\n");
+        return jsBuilder.toString();
     }
 }

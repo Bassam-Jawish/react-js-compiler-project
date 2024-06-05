@@ -86,6 +86,26 @@ public class ForStatement extends IterationStatement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("for (");
+        if (variableStatement != null) {
+            jsBuilder.append(variableStatement.convertToJs());
+        } else if (!expressions.isEmpty() && expressions.get(0) != null) {
+            jsBuilder.append(expressions.get(0).convertToJs());
+        }
+        jsBuilder.append("; ");
+
+        if (expressions.size() > 1 && expressions.get(1) != null) {
+            jsBuilder.append(expressions.get(1).convertToJs());
+        }
+        jsBuilder.append("; ");
+
+        if (expressions.size() > 2 && expressions.get(2) != null) {
+            jsBuilder.append(expressions.get(2).convertToJs());
+        }
+        jsBuilder.append(") {\n");
+        jsBuilder.append(statement.convertToJs());
+        jsBuilder.append("}\n");
+        return jsBuilder.toString();
     }
 }

@@ -34,6 +34,6 @@ public class FunctionCreateElementExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return functionCreateElement != null ? functionCreateElement.convertToJs() : "";
     }
 }

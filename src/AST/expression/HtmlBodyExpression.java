@@ -34,6 +34,6 @@ public class HtmlBodyExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return htmlBody != null ? htmlBody.convertToJs() : "";
     }
 }

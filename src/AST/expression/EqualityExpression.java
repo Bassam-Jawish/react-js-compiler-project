@@ -62,6 +62,6 @@ public class EqualityExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return leftExpression.convertToJs() + " " + operator + " " + rightExpression.convertToJs();
     }
 }

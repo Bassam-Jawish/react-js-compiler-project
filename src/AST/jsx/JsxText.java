@@ -22,4 +22,20 @@ public class JsxText {
     public String toString() {
         return text;
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append(text);
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        return jsBuilder.toString();
+    }
 }

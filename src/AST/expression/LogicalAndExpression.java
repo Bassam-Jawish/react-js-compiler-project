@@ -52,6 +52,6 @@ public class LogicalAndExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return leftExpression.convertToJs() + " && " + rightExpression.convertToJs();
     }
 }

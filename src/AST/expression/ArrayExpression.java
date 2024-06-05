@@ -35,6 +35,6 @@ public class ArrayExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return arrayDeclaration.convertToJs();
     }
 }

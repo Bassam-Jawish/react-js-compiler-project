@@ -42,6 +42,6 @@ public class PreIncrementExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return "++" + expression.convertToJs();
     }
 }

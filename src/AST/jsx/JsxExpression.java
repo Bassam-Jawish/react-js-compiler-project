@@ -37,4 +37,22 @@ public class JsxExpression{
         }
         return stringBuilder.toString();
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        for (Expression expression : expressions) {
+            jsBuilder.append(expression.convertToJs());
+        }
+        return jsBuilder.toString();
+    }
 }

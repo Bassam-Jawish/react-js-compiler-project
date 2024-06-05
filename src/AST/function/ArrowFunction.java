@@ -6,7 +6,7 @@ import AST.statement.BlockStatement;
 import AST.statement.Statement;
 
 public class ArrowFunction extends   FunctionDeclaration{
-    private ArrowParameters ArrowParameters;
+    private ArrowParameters arrowParameters;
 
     private BlockStatement blockStatement;
 
@@ -29,15 +29,15 @@ public class ArrowFunction extends   FunctionDeclaration{
     }
 
     public ArrowFunction() {
-        this.ArrowParameters = ArrowParameters;
+        this.arrowParameters = arrowParameters;
     }
 
     public ArrowParameters getArrowParameters() {
-        return ArrowParameters;
+        return arrowParameters;
     }
 
-    public void setArrowParameters(ArrowParameters ArrowParameters) {
-        this.ArrowParameters = ArrowParameters;
+    public void setArrowParameters(ArrowParameters arrowParameters) {
+        this.arrowParameters = arrowParameters;
     }
 
     @Override
@@ -45,10 +45,10 @@ public class ArrowFunction extends   FunctionDeclaration{
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Arrow Function Declaration: {\n");
         Space.currentValue++;
-        if (ArrowParameters != null) {
+        if (arrowParameters != null) {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Arrow Parameters: {\n");
             Space.currentValue++;
-            stringBuilder.append("\t".repeat(Space.currentValue)).append(ArrowParameters.toString()).append(",\n");
+            stringBuilder.append("\t".repeat(Space.currentValue)).append(arrowParameters.toString()).append(",\n");
             Space.currentValue--;
             stringBuilder.append("\t".repeat(Space.currentValue)).append("}\n");
         }
@@ -93,6 +93,17 @@ public class ArrowFunction extends   FunctionDeclaration{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("(");
+        if (arrowParameters != null) {
+            jsBuilder.append(arrowParameters.convertToJs());
+        }
+        jsBuilder.append(") => ");
+        if (blockStatement != null) {
+            jsBuilder.append(blockStatement.convertToJs());
+        } else if (expression != null) {
+            jsBuilder.append(expression.convertToJs());
+        }
+        return jsBuilder.toString();
     }
 }

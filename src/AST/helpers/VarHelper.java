@@ -19,4 +19,18 @@ public class VarHelper {
     public String toString() {
         return type;
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        return type.toLowerCase();
+    }
 }

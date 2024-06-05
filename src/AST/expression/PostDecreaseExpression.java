@@ -43,6 +43,6 @@ public class PostDecreaseExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return expression.convertToJs() + "--";
     }
 }

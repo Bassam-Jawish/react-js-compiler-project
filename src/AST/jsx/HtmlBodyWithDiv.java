@@ -95,7 +95,18 @@ public class HtmlBodyWithDiv extends HtmlBody{
 
     @Override
     public String convertToHtml() {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("<").append(openTagName);
+        for (JsxAttribute attr : jsxAttributes) {
+            stringBuilder.append(" ").append(attr.convertToHtml());
+        }
+        stringBuilder.append(">");
+        if (jsxContent != null) {
+            stringBuilder.append(jsxContent.convertToHtml());
+        }
+        stringBuilder.append("</").append(closeTagName).append(">");
+        return stringBuilder.toString();
     }
 
     @Override

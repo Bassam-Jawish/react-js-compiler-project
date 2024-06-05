@@ -32,6 +32,6 @@ public class NotExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return "!" + expression.convertToJs();
     }
 }

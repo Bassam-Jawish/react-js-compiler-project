@@ -62,4 +62,33 @@ public class JsxAttribute {
         return stringBuilder.toString();
 
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        if (jsxAttributeName != null && objectDeclaration != null) {
+            htmlBuilder.append(" ").append(jsxAttributeName).append("=\"").append(objectDeclaration.toString()).append("\"");
+        } else if (jsxAttributeName != null && string != null) {
+            htmlBuilder.append(" ").append(jsxAttributeName).append("=\"").append(string).append("\"");
+        } else if (jsxAttributeName != null) {
+            htmlBuilder.append(" ").append(jsxAttributeName);
+        }
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        if (jsxAttributeName != null && objectDeclaration != null) {
+            jsBuilder.append(" ").append(jsxAttributeName).append(": ").append(objectDeclaration.convertToJs()).append(",");
+        } else if (jsxAttributeName != null && string != null) {
+            jsBuilder.append(" ").append(jsxAttributeName).append(": \"").append(string).append("\",");
+        } else if (jsxAttributeName != null) {
+            jsBuilder.append(" ").append(jsxAttributeName).append(",");
+        }
+        return jsBuilder.toString();
+    }
 }

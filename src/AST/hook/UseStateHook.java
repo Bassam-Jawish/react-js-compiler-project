@@ -45,6 +45,17 @@ public class UseStateHook extends Hook{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder js = new StringBuilder();
+        if (values != null && !values.isEmpty()) {
+            js.append("const [state, setState] = useState(");
+            for (Value value : values) {
+                js.append(value.toString()).append(", ");
+            }
+            if (!values.isEmpty()) {
+                js.delete(js.length() - 2, js.length()); // Remove trailing comma
+            }
+            js.append(");\n");
+        }
+        return js.toString();
     }
 }

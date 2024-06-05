@@ -35,6 +35,6 @@ public class ValueExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return valueDeclaration.getValue();
     }
 }

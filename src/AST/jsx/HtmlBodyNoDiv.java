@@ -62,7 +62,14 @@ public class HtmlBodyNoDiv extends HtmlBody{
 
     @Override
     public String convertToHtml() {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("<").append(tagName);
+        for (JsxAttribute attr : jsxAttributes) {
+            stringBuilder.append(" ").append(attr.convertToHtml());
+        }
+        stringBuilder.append("></").append(tagName).append(">");
+        return stringBuilder.toString();
     }
 
     @Override

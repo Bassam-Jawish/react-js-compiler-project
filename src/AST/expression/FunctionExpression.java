@@ -34,6 +34,6 @@ public class FunctionExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return functionDeclaration != null ? functionDeclaration.convertToJs() : "";
     }
 }

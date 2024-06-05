@@ -67,6 +67,12 @@ public class ReturnExpression extends Expression {
 
     @Override
     public String convertToJs() {
-        return "";
+        if (expression != null) {
+            return "return " + expression.convertToJs() + ";";
+        } else if (htmlBody != null) {
+            return "return `" + htmlBody.convertToJs() + "`;";
+        } else {
+            return "return;";
+        }
     }
 }

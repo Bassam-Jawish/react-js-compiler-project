@@ -49,6 +49,15 @@ public class Value extends ArrowParameters{
 
     @Override
     public String convertToJs() {
-        return "";
+        return switch (type) {
+            case "String" -> "\"" + value + "\"";
+            case "TemplateLiteral" -> "`" + value + "`";
+            case "Number" -> value;
+            case "Boolean" -> value.toLowerCase();
+            case "Null" -> "null";
+            case "Undefined" -> "undefined";
+            case "Identifier" -> value;
+            default -> "";
+        };
     }
 }

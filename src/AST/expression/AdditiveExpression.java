@@ -65,6 +65,6 @@ public class AdditiveExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return left.convertToJs() + " " + operator + " " + right.convertToJs();
     }
 }

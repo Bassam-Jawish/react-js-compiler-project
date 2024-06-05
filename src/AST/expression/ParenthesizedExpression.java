@@ -31,6 +31,6 @@ public class ParenthesizedExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return "(" + expression.convertToJs() + ")";
     }
 }

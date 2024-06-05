@@ -49,10 +49,8 @@
 
         @Override
         public String convertToHtml() {
-            String htmlBuilder = "<div class=\"useRefHook\">" +
-                    "<p>" + this.toString() + "</p>" +
-                    "</div>";
-            return htmlBuilder;
+            StringBuilder htmlBuilder = new StringBuilder();
+            return htmlBuilder.toString();
         }
 
         @Override
@@ -62,7 +60,16 @@
 
         @Override
         public String convertToJs() {
-            return "";
+            StringBuilder js = new StringBuilder();
+            js.append("const ").append(refTagName != null ? refTagName : "ref").append(" = useRef(");
+            if (values != null && !values.isEmpty()) {
+                for (Value value : values) {
+                    js.append(value.toString()).append(", ");
+                }
+                js.delete(js.length() - 2, js.length());
+            }
+            js.append(");\n");
+            return js.toString();
         }
 
     }

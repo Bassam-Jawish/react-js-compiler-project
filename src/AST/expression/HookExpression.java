@@ -34,6 +34,6 @@ public class HookExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return hookDeclaration != null ? hookDeclaration.convertToJs() : "";
     }
 }

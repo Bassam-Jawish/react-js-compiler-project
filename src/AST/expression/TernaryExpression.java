@@ -63,6 +63,6 @@ public class TernaryExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return condition.convertToJs() + " ? " + trueExpression.convertToJs() + " : " + falseExpression.convertToJs();
     }
 }

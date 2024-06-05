@@ -51,4 +51,26 @@ public class CreateFunctionParams {
 
     }
 
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder js = new StringBuilder();
+
+        if (value != null) {
+            js.append("var ").append(value.toString().replace("'", "")).append(" = document.createTextNode(").append(value.toString()).append(");\n");
+        } else if (functionCreateElement != null) {
+            js.append(functionCreateElement.convertToJs());
+        }
+
+        return js.toString();
+    }
+
 }

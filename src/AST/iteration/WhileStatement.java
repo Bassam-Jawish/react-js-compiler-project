@@ -58,6 +58,10 @@ public class WhileStatement extends IterationStatement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("while (").append(expression.convertToJs()).append(") {\n");
+        jsBuilder.append(statement.convertToJs());
+        jsBuilder.append("}\n");
+        return jsBuilder.toString();
     }
 }

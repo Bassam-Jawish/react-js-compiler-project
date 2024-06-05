@@ -90,6 +90,20 @@ public class NormalFunction extends FunctionDeclaration {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("function ").append(functionName).append("(");
+        if (!expression.isEmpty()) {
+            for (int i = 0; i < expression.size(); i++) {
+                jsBuilder.append(expression.get(i).convertToJs());
+                if (i < expression.size() - 1) {
+                    jsBuilder.append(", ");
+                }
+            }
+        }
+        jsBuilder.append(") ");
+        if (blockStatement != null) {
+            jsBuilder.append(blockStatement.convertToJs());
+        }
+        return jsBuilder.toString();
     }
 }

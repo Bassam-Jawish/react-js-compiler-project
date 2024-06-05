@@ -91,6 +91,26 @@ public class IfStatement extends Statement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+
+        jsBuilder.append("if (").append(condition.convertToJs()).append(") {\n");
+        if (ifBlock != null) {
+            jsBuilder.append(ifBlock.convertToJs());
+        }
+        jsBuilder.append("}\n");
+
+        for (ElseIF elseIF : elseIfStatements) {
+            jsBuilder.append("else if (").append(elseIF.getExpression().convertToJs()).append(") {\n");
+            jsBuilder.append(elseIF.getStatements().convertToJs());
+            jsBuilder.append("}\n");
+        }
+
+        if (elseStatement != null) {
+            jsBuilder.append("else {\n");
+            jsBuilder.append(elseStatement.convertToJs());
+            jsBuilder.append("}\n");
+        }
+
+        return jsBuilder.toString();
     }
 }

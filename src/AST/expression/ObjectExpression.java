@@ -35,6 +35,6 @@ public class ObjectExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "";
+        return objectDeclaration.convertToJs();
     }
 }

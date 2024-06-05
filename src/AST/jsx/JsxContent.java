@@ -85,4 +85,37 @@ public class JsxContent {
 
         return stringBuilder.toString();
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+
+        for (JsxText textElement : textElements) {
+            htmlBuilder.append(textElement.convertToHtml());
+        }
+
+        for (HtmlBody htmlBody : htmlBodies) {
+            htmlBuilder.append(htmlBody.convertToHtml());
+        }
+
+        for (JsxExpression expression : expressions) {
+            htmlBuilder.append(expression.convertToHtml());
+        }
+
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+
+        for (JsxExpression expression : expressions) {
+            jsBuilder.append(expression.convertToJs());
+        }
+
+        return jsBuilder.toString();
+    }
 }

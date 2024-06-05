@@ -58,7 +58,6 @@ public class ObjectProperty {
 
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        // Generate JavaScript object property assignment
         if (identifier != null) {
             jsBuilder.append(identifier).append(": ").append(expression.convertToJs());
         } else {
