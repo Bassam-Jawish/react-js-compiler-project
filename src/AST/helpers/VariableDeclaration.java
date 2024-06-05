@@ -45,4 +45,15 @@ public class VariableDeclaration {
         stringBuilder.append("\t".repeat(Space.currentValue)).append("},\n");
         return stringBuilder.toString();
     }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(variableType.toString());
+
+        if (expression != null) {
+            jsBuilder.append(" = ").append(expression.convertToJs());
+        }
+
+        return jsBuilder.toString();
+    }
 }

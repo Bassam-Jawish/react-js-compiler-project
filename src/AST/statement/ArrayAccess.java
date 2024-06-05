@@ -51,6 +51,12 @@ public class ArrayAccess extends Statement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(arrayName).append("[");
+        if (index != null) {
+            jsBuilder.append(index.convertToJs());
+        }
+        jsBuilder.append("];");
+        return jsBuilder.toString();
     }
 }

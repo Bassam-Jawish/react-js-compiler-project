@@ -40,37 +40,20 @@ public class ImportStatement extends Statement {
     @Override
     public String convertToHtml() {
         StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<div id=\"import-statement\"></div>");
         return htmlBuilder.toString();
     }
 
     @Override
     public String convertToCss() {
-        return  "#import-statement {\n"
-                + "    font-family: Arial, sans-serif;\n"
-                + "    margin: 20px;\n"
-                + "    padding: 10px;\n"
-                + "    border: 1px solid #ccc;\n"
-                + "}\n"
-                + ".import-declaration {\n"
-                + "    margin-left: 20px;\n"
-                + "    color: #333;\n"
-                + "}\n";
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
     }
 
     @Override
     public String convertToJs() {
-        return  "document.addEventListener('DOMContentLoaded', function() {\n"
-                + "    const importStatementDiv = document.getElementById('import-statement');\n"
-                + "    if (importStatementDiv) {\n"
-                + "        importStatementDiv.innerHTML = `<div class=\"import-statement\">\n"
-                + "            <p>Import Statement: {</p>\n"
-                + "            <div class=\"import-declaration\" style=\"margin-left: ${Space.currentValue * 20}px;\">\n"
-
-                + "            </div>\n"
-                + "            <p>}</p>\n"
-                + "        </div>`;\n"
-                + "    }\n"
-                + "});\n";
+        if (importDeclaration != null) {
+            return importDeclaration.convertToJs();
+        }
+        return "";
     }
 }

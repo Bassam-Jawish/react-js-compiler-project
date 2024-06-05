@@ -20,4 +20,22 @@ public class IdentifierType extends VariableType{
     public String toString() {
         return identifier;
     }
+
+    @Override
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    @Override
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    @Override
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        return jsBuilder.toString();
+    }
 }

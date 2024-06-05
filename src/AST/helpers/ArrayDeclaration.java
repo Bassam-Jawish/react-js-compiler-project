@@ -35,4 +35,34 @@ public class ArrayDeclaration extends VariableType{
 
         return stringBuilder.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        // Generate HTML from React JS array declaration
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<ul>\n");
+        for (Expression expression : expressions) {
+            htmlBuilder.append("\t<li>").append(expression).append("</li>\n");
+        }
+        htmlBuilder.append("</ul>");
+        return htmlBuilder.toString();
+    }
+
+    @Override
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    @Override
+    public String convertToJs() {
+        // Generate JavaScript array declaration
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("[\n");
+        for (Expression expression : expressions) {
+            jsBuilder.append("\t").append(expression.convertToJs()).append(",\n");
+        }
+        jsBuilder.append("]");
+        return jsBuilder.toString();
+    }
 }

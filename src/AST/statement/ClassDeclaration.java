@@ -65,16 +65,29 @@ public class ClassDeclaration extends Statement {
 
     @Override
     public String convertToHtml() {
-        return "";
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
     }
 
     @Override
     public String convertToCss() {
-        return "";
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
     }
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("// Class: ").append(className).append("\n");
+        jsBuilder.append("class ").append(className);
+        if (extendedClass != null) {
+            jsBuilder.append(" extends ").append(extendedClass.convertToJs());
+        }
+        jsBuilder.append(" {\n");
+        if (blockStatement != null) {
+            jsBuilder.append(blockStatement.convertToJs()).append("\n");
+        }
+        jsBuilder.append("}\n");
+        return jsBuilder.toString();
     }
 }

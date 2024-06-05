@@ -32,45 +32,21 @@ public class ImportNamedSpecifier extends ImportDeclaration{
         return stringBuilder.toString();
     }
 
-    public  void convertToHtml() {
-        String outputDir = "src/OutputFiles/";
+    @Override
+    public String convertToHtml() {
         StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<div>").append("<h3>Import Named Specifier</h3>").append("<ul>");
-        for (ImportSpecifier importSpecifier : importSpecifiers) {
-            String specifierHtml = importSpecifier.toString(); // Convert specifier to string
-            if (specifierHtml != null) {
-                htmlBuilder.append("<li>").append(specifierHtml).append("</li>");
-            }
-        }
-        htmlBuilder.append("</ul>").append("</div>");
-
-        // Write the HTML content to a file
-        try {
-            // Create output directory if it doesn't exist
-            Files.createDirectories(Paths.get(outputDir));
-
-            // Define file path for HTML
-            String htmlFilePath = outputDir + "output.html";
-
-            // Use try-with-resources to ensure the FileWriter is closed
-            try (FileWriter fileWriter = new FileWriter(htmlFilePath)) {
-                fileWriter.write(htmlBuilder.toString());
-                fileWriter.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return htmlBuilder.toString();
     }
-    // Method to convert to CSS
+
+    @Override
     public String convertToCss() {
-        // Implement conversion logic to CSS here
-        return "/* CSS for ImportNamedSpecifier */";
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
     }
 
-    // Method to convert to JavaScript
+    @Override
     public String convertToJs() {
-        // Implement conversion logic to JavaScript here
-        return "// JavaScript for ImportNamedSpecifier";
+        StringBuilder jsBuilder = new StringBuilder();
+        return jsBuilder.toString();
     }
 }

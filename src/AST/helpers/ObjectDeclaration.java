@@ -38,4 +38,28 @@ public class ObjectDeclaration extends VariableType{
         }
         return stringBuilder.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    @Override
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    @Override
+    public String convertToJs() {
+        // Generate JavaScript object declaration
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("{\n");
+        for (ObjectProperty property : objectProperty) {
+            jsBuilder.append("\t").append(property.convertToJs()).append(",\n");
+        }
+        jsBuilder.append("}");
+        return jsBuilder.toString();
+    }
 }

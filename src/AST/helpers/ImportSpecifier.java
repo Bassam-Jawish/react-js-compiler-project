@@ -29,36 +29,17 @@ public class ImportSpecifier {
     }
 
     public String convertToHtml() {
-       // System.out.println("sdfddddddddddddddd");
         StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<div>").append("<h3>Import Specifier</h3>").append("<ul>");
-        if (type != null) {
-            htmlBuilder.append("<li>").append("Name: ").append(type).append("</li>");
-        }
-        htmlBuilder.append("</ul>").append("</div>");
         return htmlBuilder.toString();
     }
 
-    // Method to convert to CSS
     public String convertToCss() {
         StringBuilder cssBuilder = new StringBuilder();
-        if (type != null) {
-            cssBuilder.append(".import-specifier {").append("\n")
-                    .append("  content: '").append(type).append("';").append("\n")
-                    .append("}").append("\n");
-        }
         return cssBuilder.toString();
     }
 
-    // Method to convert to JavaScript
     public String convertToJs() {
-        StringBuilder jsBuilder = new StringBuilder();
-        if (type != null) {
-            jsBuilder.append("const importSpecifier = {").append("\n")
-                    .append("  name: '").append(type).append("'").append("\n")
-                    .append("};").append("\n");
-        }
-        return jsBuilder.toString();
+        return "";
     }
 
 }

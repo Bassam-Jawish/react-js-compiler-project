@@ -59,16 +59,23 @@ public class PrintStatement extends Statement{
 
     @Override
     public String convertToHtml() {
-        return "";
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
     }
 
     @Override
     public String convertToCss() {
-        return "";
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
     }
-
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("console").append(".").append("log").append("(");
+        if (expression != null) {
+            jsBuilder.append(expression.convertToJs());
+        }
+        jsBuilder.append(");");
+        return jsBuilder.toString();
     }
 }

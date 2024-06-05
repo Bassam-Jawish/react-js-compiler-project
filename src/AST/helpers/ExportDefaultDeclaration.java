@@ -47,6 +47,12 @@ public class ExportDefaultDeclaration extends ExportStatement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("export default ");
+        if (expression != null) {
+            jsBuilder.append(expression.convertToJs());
+        }
+        jsBuilder.append(";");
+        return jsBuilder.toString();
     }
 }

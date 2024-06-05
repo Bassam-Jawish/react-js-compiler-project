@@ -48,4 +48,25 @@ public class VariableDeclarationConst {
         stringBuilder.append("\t".repeat(Space.currentValue)).append("},\n");
         return stringBuilder.toString();
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(variableType.toString());
+
+        if (expression != null) {
+            jsBuilder.append(" = ").append(expression.convertToJs());
+        }
+
+        return jsBuilder.toString();
+    }
 }

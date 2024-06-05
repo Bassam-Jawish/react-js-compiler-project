@@ -29,4 +29,21 @@ public class ImportDefaultSpecifier extends ImportDeclaration {
         stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
         return stringBuilder.toString();
     }
+
+    @Override
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    @Override
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    @Override
+    public String convertToJs() {
+        return type;
+    }
 }

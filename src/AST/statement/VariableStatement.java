@@ -86,6 +86,20 @@ public class VariableStatement extends Statement {
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+
+        if (!variableDeclarations.isEmpty()) {
+            for (VariableDeclaration variableDeclaration : variableDeclarations) {
+                jsBuilder.append(varHelper.toString()).append(" ").append(variableDeclaration.convertToJs()).append(";\n");
+            }
+        }
+
+        if (!variableConstDeclarations.isEmpty()) {
+            for (VariableDeclarationConst variableDeclarationConst : variableConstDeclarations) {
+                jsBuilder.append("const ").append(variableDeclarationConst.convertToJs()).append(";\n");
+            }
+        }
+
+        return jsBuilder.toString();
     }
 }

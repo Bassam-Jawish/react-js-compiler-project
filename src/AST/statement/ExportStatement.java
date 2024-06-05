@@ -4,7 +4,7 @@ package AST.statement;
 import AST.helpers.ExportDeclaration;
 import AST.helpers.ExportDefaultDeclaration;
 
-public abstract class ExportStatement extends Statement{/*
+public abstract class ExportStatement extends Statement{
     private ExportDefaultDeclaration exportDefaultDeclaration;
     private ExportDeclaration exportDeclaration;
 
@@ -42,5 +42,30 @@ public abstract class ExportStatement extends Statement{/*
 
         stringBuilder.append("\n}");
         return stringBuilder.toString();
-    }*/
+    }
+
+    @Override
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    @Override
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    @Override
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        if (exportDefaultDeclaration != null) {
+            jsBuilder.append(exportDefaultDeclaration.convertToJs()).append("\n");
+        }
+        if (exportDeclaration != null) {
+            jsBuilder.append(exportDeclaration.convertToJs()).append("\n");
+        }
+        return jsBuilder.toString();
+    }
+
 }

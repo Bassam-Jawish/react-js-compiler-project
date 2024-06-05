@@ -45,4 +45,26 @@ public class ObjectProperty {
         stringBuilder.append("}");
         return stringBuilder.toString();
     }
+
+    public String convertToHtml() {
+        StringBuilder htmlBuilder = new StringBuilder();
+        return htmlBuilder.toString();
+    }
+
+    public String convertToCss() {
+        StringBuilder cssBuilder = new StringBuilder();
+        return cssBuilder.toString();
+    }
+
+    public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        // Generate JavaScript object property assignment
+        if (identifier != null) {
+            jsBuilder.append(identifier).append(": ").append(expression.convertToJs());
+        } else {
+            jsBuilder.append(expression.convertToJs());
+        }
+        return jsBuilder.toString();
+    }
+
 }
