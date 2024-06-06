@@ -1,1 +1,8 @@
-import React, { useEffect, useState } from "react";
+const NavigationBar = ({ items, setItems }) => {
+  return (
+    <nav className="navigation">
+      <img src={"file4.png"} alt="icon" />
+      <SearchComponent items={items} setItems={setItems} />
+    </nav>
+  );
+};
