@@ -38,10 +38,12 @@ public class ExpressionPar extends ArrowParameters{
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
         if (!expression.isEmpty()) {
-            for (Expression expression : expression) {
-                jsBuilder.append(expression.convertToJs()).append(", ");
+            for (int i = 0; i < expression.size(); i++) {
+                jsBuilder.append(expression.get(i).convertToJs());
+                if (i < expression.size() - 1) {
+                    jsBuilder.append(",");
+                }
             }
-            jsBuilder.setLength(jsBuilder.length() - 2);
         }
         return jsBuilder.toString();
     }

@@ -1,8 +1,26 @@
-const NavigationBar = ({ items, setItems }) => {
+function SearchComponent({ items, setItems }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setItems(products);
+    } else {
+      const results = items.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setItems(results);
+    }
+  }, [searchTerm]);
+  
   return (
-    <nav className="navigation">
-      <img src={"file4.png"} alt="icon" />
-      <SearchComponent items={items} setItems={setItems} />
-    </nav>
+    <div className="search-bar">
+      <input
+        id = "searchInput"
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={() => setSearchTerm(event.target.value)}
+      />
+    </div>
   );
-};
+}

@@ -89,17 +89,7 @@ public class JsxContent {
     public String convertToHtml() {
         StringBuilder htmlBuilder = new StringBuilder();
 
-        for (JsxText textElement : textElements) {
-            htmlBuilder.append(textElement.convertToHtml());
-        }
 
-        for (HtmlBody htmlBody : htmlBodies) {
-            htmlBuilder.append(htmlBody.convertToHtml());
-        }
-
-        for (JsxExpression expression : expressions) {
-            htmlBuilder.append(expression.convertToHtml());
-        }
 
         return htmlBuilder.toString();
     }
@@ -112,9 +102,20 @@ public class JsxContent {
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
 
-        for (JsxExpression expression : expressions) {
-            jsBuilder.append(expression.convertToJs());
+        Space.currentValue++;
+
+        for (JsxText textElement : textElements) {
+            jsBuilder.append("\t".repeat(Space.currentValue)).append(textElement.convertToJs()).append("\n");
         }
+
+        for (HtmlBody htmlBody : htmlBodies) {
+            jsBuilder.append("\t".repeat(Space.currentValue)).append(htmlBody.convertToJs()).append("\n");
+        }
+
+        for (JsxExpression expression : expressions) {
+            jsBuilder.append("\t".repeat(Space.currentValue)).append(expression.convertToJs()).append("\n");
+        }
+        Space.currentValue--;
 
         return jsBuilder.toString();
     }

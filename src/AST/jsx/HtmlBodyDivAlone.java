@@ -63,12 +63,6 @@ public class HtmlBodyDivAlone extends HtmlBody{
     @Override
     public String convertToHtml() {
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("<").append(tagName);
-        for (JsxAttribute attr : jsxAttributes) {
-            stringBuilder.append(" ").append(attr.convertToHtml());
-        }
-        stringBuilder.append("></").append(tagName).append(">");
         return stringBuilder.toString();
     }
 
@@ -79,6 +73,11 @@ public class HtmlBodyDivAlone extends HtmlBody{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<").append(tagName);
+        for (JsxAttribute attr : jsxAttributes) {
+            stringBuilder.append(" ").append(attr.convertToJs(true));
+        }
+        return stringBuilder.toString();
     }
 }

@@ -44,6 +44,7 @@ public class ImportDefaultSpecifier extends ImportDeclaration {
 
     @Override
     public String convertToJs() {
-        return type;
+        StringBuilder jsBuilder = new StringBuilder();
+        return jsBuilder.toString();
     }
 }

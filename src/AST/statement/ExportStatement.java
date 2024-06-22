@@ -59,12 +59,12 @@ public abstract class ExportStatement extends Statement{
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        if (exportDefaultDeclaration != null) {
+        /*if (exportDefaultDeclaration != null) {
             jsBuilder.append(exportDefaultDeclaration.convertToJs()).append("\n");
         }
         if (exportDeclaration != null) {
             jsBuilder.append(exportDeclaration.convertToJs()).append("\n");
-        }
+        }*/
         return jsBuilder.toString();
     }
 

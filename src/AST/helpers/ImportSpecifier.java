@@ -39,7 +39,8 @@ public class ImportSpecifier {
     }
 
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+        return jsBuilder.toString();
     }
 
 }

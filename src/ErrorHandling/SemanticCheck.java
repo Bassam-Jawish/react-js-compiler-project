@@ -55,6 +55,7 @@ public class SemanticCheck {
         declaredVariables.put("setInterval@0", "function");
         declaredVariables.put("clearInterval@0", "function");
         declaredVariables.put("focus@0", "function");
+        declaredVariables.put("event@0", "function");
     }
 
     public Map<String, String> getDeclaredVariables() {

@@ -1,5 +1,6 @@
 package AST.program;
 
+import AST.Space;
 import AST.statement.ImportStatement;
 import AST.statement.Statement;
 
@@ -284,11 +285,12 @@ public class Program {
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
         jsBuilder.append("// script.js\n");
-        jsBuilder.append("document.addEventListener('DOMContentLoaded', function() {\n");
         for (Statement statement : statements) {
-            jsBuilder.append(statement.convertToJs()).append("\n");
+            if (!statement.convertToJs().isEmpty()) {
+                jsBuilder.append(statement.convertToJs()).append("\n");
+            }
         }
-        jsBuilder.append("});");
+        jsBuilder.append("document.querySelector(\"#app\").innerHTML = App();");
         return jsBuilder.toString();
     }
 }

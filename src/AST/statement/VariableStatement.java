@@ -90,7 +90,12 @@ public class VariableStatement extends Statement {
 
         if (!variableDeclarations.isEmpty()) {
             for (VariableDeclaration variableDeclaration : variableDeclarations) {
-                jsBuilder.append(varHelper.toString()).append(" ").append(variableDeclaration.convertToJs()).append(";\n");
+                if (varHelper == null) {
+                    jsBuilder.append(variableDeclaration.convertToJs()).append(";\n");
+                }
+                else {
+                    jsBuilder.append(varHelper.toString()).append(" ").append(variableDeclaration.convertToJs()).append(";\n");
+                }
             }
         }
 
@@ -99,7 +104,6 @@ public class VariableStatement extends Statement {
                 jsBuilder.append("const ").append(variableDeclarationConst.convertToJs()).append(";\n");
             }
         }
-
         return jsBuilder.toString();
     }
 }

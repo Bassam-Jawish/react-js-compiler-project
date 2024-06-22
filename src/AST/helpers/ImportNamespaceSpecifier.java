@@ -43,6 +43,7 @@ private String type;
 
     @Override
     public String convertToJs() {
-        return "* as " + type;
+        StringBuilder jsBuilder = new StringBuilder();
+        return jsBuilder.toString();
     }
 }

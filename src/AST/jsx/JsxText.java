@@ -25,7 +25,6 @@ public class JsxText {
 
     public String convertToHtml() {
         StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append(text);
         return htmlBuilder.toString();
     }
 
@@ -36,6 +35,7 @@ public class JsxText {
 
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(text);
         return jsBuilder.toString();
     }
 }

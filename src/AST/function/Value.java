@@ -29,7 +29,7 @@ public class Value extends ArrowParameters{
     public String toString() {
         if (type != null && value != null) {
             if ("String".equals(type)) {
-                return "{Type = " + type + ", Value = \"" + value + "\"}";
+                return "{Type = " + type + ", Value = " + value + "}";
             } else {
                 return "{Type = " + type + ", Value = " + value + "}";
             }

@@ -48,11 +48,11 @@ public class ExportDefaultDeclaration extends ExportStatement {
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append("export default ");
+        /*jsBuilder.append("export default ");
         if (expression != null) {
             jsBuilder.append(expression.convertToJs());
         }
-        jsBuilder.append(";");
+        jsBuilder.append(";");*/
         return jsBuilder.toString();
     }
 }

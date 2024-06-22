@@ -65,13 +65,6 @@ public class JsxAttribute {
 
     public String convertToHtml() {
         StringBuilder htmlBuilder = new StringBuilder();
-        if (jsxAttributeName != null && objectDeclaration != null) {
-            htmlBuilder.append(" ").append(jsxAttributeName).append("=\"").append(objectDeclaration.toString()).append("\"");
-        } else if (jsxAttributeName != null && string != null) {
-            htmlBuilder.append(" ").append(jsxAttributeName).append("=\"").append(string).append("\"");
-        } else if (jsxAttributeName != null) {
-            htmlBuilder.append(" ").append(jsxAttributeName);
-        }
         return htmlBuilder.toString();
     }
 
@@ -80,15 +73,39 @@ public class JsxAttribute {
         return cssBuilder.toString();
     }
 
-    public String convertToJs() {
+    public String convertToJs(boolean isHtmlTag) {
         StringBuilder jsBuilder = new StringBuilder();
-        if (jsxAttributeName != null && objectDeclaration != null) {
-            jsBuilder.append(" ").append(jsxAttributeName).append(": ").append(objectDeclaration.convertToJs()).append(",");
-        } else if (jsxAttributeName != null && string != null) {
-            jsBuilder.append(" ").append(jsxAttributeName).append(": \"").append(string).append("\",");
-        } else if (jsxAttributeName != null) {
-            jsBuilder.append(" ").append(jsxAttributeName).append(",");
+
+        String name = "";
+        if (jsxAttributeName != null) {
+            name = jsxAttributeName;
+        }
+        if (name.equals("className")) {
+            name = "class";
+        }
+        if (name.equals("onChange")) {
+            name = "oninput";
+        }
+
+        if (isHtmlTag) {
+            if (!name.isEmpty() && objectDeclaration != null) {
+                jsBuilder.append(" ").append(name).append("=").append(objectDeclaration.convertToJs());
+            } else if (!name.isEmpty() && string != null) {
+                jsBuilder.append(" ").append(name).append("=").append(string);
+            } else if (!name.isEmpty()) {
+                jsBuilder.append(" ").append(name);
+            }
+        }
+        else {
+            if (!name.isEmpty() && objectDeclaration != null) {
+                jsBuilder.append(name).append(": ").append(objectDeclaration.convertToJs());
+            } else if (!name.isEmpty() && string != null) {
+                jsBuilder.append(name).append(": ").append(string);
+            } else if (!name.isEmpty()) {
+                jsBuilder.append(name);
+            }
         }
         return jsBuilder.toString();
     }
+
 }

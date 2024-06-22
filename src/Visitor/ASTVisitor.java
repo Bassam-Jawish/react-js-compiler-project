@@ -371,6 +371,10 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
     public Statement visitVariableDeclarationVr(ReactjsParser.VariableDeclarationVrContext ctx) {
         VariableStatement variableStatement = new VariableStatement();
 
+        if (ctx.varHelpers() != null) {
+            variableStatement.setVarHelper((VarHelper) visit(ctx.varHelpers()));
+        }
+
         List<VariableDeclaration> declarations = new ArrayList<>();
         for (ReactjsParser.VariableDeclarationContext varCtx : ctx.variableDeclaration()) {
             if (varCtx != null) {
@@ -1203,6 +1207,10 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         if (ctx.jsxContent() != null) {
             JsxContent jsxContent = (JsxContent) visitJsxContent(ctx.jsxContent());
             htmlBodyWithDiv.setJsxContent(jsxContent);
+        }
+
+        if (ctx.IDENTIFIER(1) != null) {
+            htmlBodyWithDiv.setCloseTagName(ctx.IDENTIFIER(1).toString());
         }
 
         if (ctx.IDENTIFIER(0) == null && ctx.IDENTIFIER(1) == null) {

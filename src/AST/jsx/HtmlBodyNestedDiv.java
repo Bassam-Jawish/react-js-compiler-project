@@ -83,18 +83,6 @@ public class HtmlBodyNestedDiv extends HtmlBody{
     @Override
     public String convertToHtml() {
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("<").append(tagName);
-        for (JsxAttribute attr : jsxAttributes) {
-            stringBuilder.append(" ").append(attr.convertToHtml());
-        }
-        stringBuilder.append(">");
-
-        if (jsxContent != null) {
-            stringBuilder.append(jsxContent.convertToHtml());
-        }
-
-        stringBuilder.append("</").append(tagName).append(">");
         return stringBuilder.toString();
     }
 
@@ -105,6 +93,34 @@ public class HtmlBodyNestedDiv extends HtmlBody{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isHtmlTag = Character.isLowerCase(tagName.charAt(0));
+
+        if (isHtmlTag) {
+            stringBuilder.append("<").append(tagName);
+            for (JsxAttribute attr : jsxAttributes) {
+                stringBuilder.append(attr.convertToJs(isHtmlTag));
+            }
+            stringBuilder.append(" />");
+
+            Space.currentValue++;
+            if (jsxContent != null) {
+                stringBuilder.append("\t".repeat(Space.currentValue)).append(jsxContent.convertToJs());
+            }
+            Space.currentValue--;
+        } else {
+            stringBuilder.append("${").append(tagName).append("({ ");
+            for (int i = 0; i < jsxAttributes.size(); i++) {
+                JsxAttribute attr = jsxAttributes.get(i);
+                stringBuilder.append(attr.convertToJs(isHtmlTag));
+                if (i < jsxAttributes.size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            stringBuilder.append(" })}");
+        }
+
+        return stringBuilder.toString();
     }
+
 }

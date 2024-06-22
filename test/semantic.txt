@@ -1,1 +1,4 @@
 Semantic Check : 
+Line 2: (Error: UseState is used but not imported!).
+Line 4: (Error: UseEffect is used but not imported!).
+Line 6: (Error: Variable 'products' is used in scope 3 but not defined above in this scope or at the top levels).

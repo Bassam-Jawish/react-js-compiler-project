@@ -63,9 +63,13 @@ public class  BlockStatement extends Statement {
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("{\n");
+        Space.currentValue++;
         for (Statement statement : statements) {
-            jsBuilder.append(statement.convertToJs()).append("\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append(statement.convertToJs()).append("\n");
         }
+        Space.currentValue--;
+        jsBuilder.append("\t".repeat(Space.currentValue)).append("}");
         return jsBuilder.toString();
     }
 

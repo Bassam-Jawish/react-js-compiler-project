@@ -53,13 +53,24 @@ public class ObjectDeclaration extends VariableType{
 
     @Override
     public String convertToJs() {
-        // Generate JavaScript object declaration
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append("{\n");
-        for (ObjectProperty property : objectProperty) {
-            jsBuilder.append("\t").append(property.convertToJs()).append(",\n");
+        Space.currentValue++;
+        if (objectProperty.size() != 1) {
+            jsBuilder.append("{");
         }
-        jsBuilder.append("}");
+        for (int i = 0; i < objectProperty.size(); i++) {
+            ObjectProperty objectPropertyy =  objectProperty.get(i);
+            if (i == objectProperty.size() - 1) {
+                jsBuilder.append(objectPropertyy.convertToJs());
+            }
+            else {
+                jsBuilder.append(objectPropertyy.convertToJs()).append(", ");
+            }
+        }
+        Space.currentValue--;
+        if (objectProperty.size() != 1) {
+            jsBuilder.append("}");
+        }
         return jsBuilder.toString();
     }
 }

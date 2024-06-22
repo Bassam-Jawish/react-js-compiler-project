@@ -67,12 +67,26 @@ public class ReturnExpression extends Expression {
 
     @Override
     public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
+        Space.currentValue++;
+
+        jsBuilder.append("return ");
+
         if (expression != null) {
-            return "return " + expression.convertToJs() + ";";
+            jsBuilder.append(expression.convertToJs()).append(";");
         } else if (htmlBody != null) {
-            return "return `" + htmlBody.convertToJs() + "`;";
+            jsBuilder.append("`")
+                    .append("\n")
+                    .append("\t".repeat(Space.currentValue))
+                    .append(htmlBody.convertToJs())
+                    .append("\n");
+
+            Space.currentValue--;
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("`;");
         } else {
-            return "return;";
+            Space.currentValue--;
+            jsBuilder.append("\t".repeat(Space.currentValue)).append(";");
         }
+        return jsBuilder.toString();
     }
 }

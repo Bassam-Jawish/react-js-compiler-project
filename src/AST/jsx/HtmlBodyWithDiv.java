@@ -5,7 +5,8 @@ import AST.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
-public class HtmlBodyWithDiv extends HtmlBody{
+
+public class HtmlBodyWithDiv extends HtmlBody {
     private String openTagName;
     private List<JsxAttribute> jsxAttributes;
     private JsxContent jsxContent;
@@ -62,8 +63,7 @@ public class HtmlBodyWithDiv extends HtmlBody{
 
         if (jsxAttributes.isEmpty()) {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Jsx Attributes: {}\n");
-        }
-        else {
+        } else {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Jsx Attributes: {\n");
             Space.currentValue++;
             for (JsxAttribute jsxAttribute : jsxAttributes) {
@@ -75,8 +75,7 @@ public class HtmlBodyWithDiv extends HtmlBody{
 
         if (jsxContent == null) {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Jsx Content: {}\n");
-        }
-        else {
+        } else {
             stringBuilder.append("\t".repeat(Space.currentValue)).append("Jsx Content: {\n");
             Space.currentValue++;
             stringBuilder.append("\t".repeat(Space.currentValue)).append(jsxContent.toString());
@@ -96,16 +95,6 @@ public class HtmlBodyWithDiv extends HtmlBody{
     @Override
     public String convertToHtml() {
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("<").append(openTagName);
-        for (JsxAttribute attr : jsxAttributes) {
-            stringBuilder.append(" ").append(attr.convertToHtml());
-        }
-        stringBuilder.append(">");
-        if (jsxContent != null) {
-            stringBuilder.append(jsxContent.convertToHtml());
-        }
-        stringBuilder.append("</").append(closeTagName).append(">");
         return stringBuilder.toString();
     }
 
@@ -116,6 +105,17 @@ public class HtmlBodyWithDiv extends HtmlBody{
 
     @Override
     public String convertToJs() {
-        return "";
+        StringBuilder jsBuilder = new StringBuilder();
+
+        jsBuilder.append("<").append(openTagName);
+        for (JsxAttribute attr : jsxAttributes) {
+            jsBuilder.append(attr.convertToJs(true));
+        }
+        jsBuilder.append(">\n");
+        if (jsxContent != null) {
+            jsBuilder.append(jsxContent.convertToJs());
+        }
+        jsBuilder.append("\t".repeat(Space.currentValue)).append("</").append(closeTagName).append(">");
+        return jsBuilder.toString();
     }
 }
