@@ -90,7 +90,8 @@ public class ForStatement extends IterationStatement {
         jsBuilder.append("for (");
         if (variableStatement != null) {
             jsBuilder.append(variableStatement.convertToJs());
-        } else if (!expressions.isEmpty() && expressions.get(0) != null) {
+        }
+        if (!expressions.isEmpty() && expressions.get(0) != null) {
             jsBuilder.append(expressions.get(0).convertToJs());
         }
         jsBuilder.append("; ");
@@ -98,13 +99,17 @@ public class ForStatement extends IterationStatement {
         if (expressions.size() > 1 && expressions.get(1) != null) {
             jsBuilder.append(expressions.get(1).convertToJs());
         }
-        jsBuilder.append("; ");
 
         if (expressions.size() > 2 && expressions.get(2) != null) {
             jsBuilder.append(expressions.get(2).convertToJs());
+            jsBuilder.deleteCharAt(jsBuilder.length());
+
+
         }
         jsBuilder.append(") {\n");
-        jsBuilder.append(statement.convertToJs());
+        Space.currentValue++;
+        jsBuilder.append("\t".repeat(Space.currentValue)).append(statement.convertToJs());
+        Space.currentValue--;
         jsBuilder.append("}\n");
         return jsBuilder.toString();
     }

@@ -84,7 +84,7 @@ public class FunctionCreateElement extends Statement {
     public String convertToJs() {
         StringBuilder js = new StringBuilder();
 
-        // Create the element
+        /*// Create the element
         if (value != null) {
             js.append("var ").append(value.toString().replace("'", "")).append(" = document.createElement('").append(value.toString().replace("'", "")).append("');\n");
         }
@@ -106,7 +106,7 @@ public class FunctionCreateElement extends Statement {
                     js.append(value.toString().replace("'", "")).append(".appendChild(").append(childElement).append(");\n");
                 }
             }
-        }
+        }*/
 
         return js.toString();
     }

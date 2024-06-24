@@ -60,16 +60,8 @@
 
         @Override
         public String convertToJs() {
-            StringBuilder js = new StringBuilder();
-            js.append("const ").append(refTagName != null ? refTagName : "ref").append(" = useRef(");
-            if (values != null && !values.isEmpty()) {
-                for (Value value : values) {
-                    js.append(value.toString()).append(", ");
-                }
-                js.delete(js.length() - 2, js.length());
-            }
-            js.append(");\n");
-            return js.toString();
+            StringBuilder jsBuilder = new StringBuilder();
+            return jsBuilder.toString();
         }
 
     }

@@ -30,7 +30,6 @@ const NavigationBar = () => {
   return (
     <nav className="navigation">
       <h1>Product Catalog</h1>
-      {/* Add more navigation items if needed */}
     </nav>
   );
 };
@@ -69,7 +68,6 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <h2>Sidebar</h2>
-      {/* Add content */}
     </aside>
   );
 };

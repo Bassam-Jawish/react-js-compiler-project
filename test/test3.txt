@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import pannerImage from "/main-panel.png";
 // main.js
 
 import file0JPG from "./assets/file0.jpg";
@@ -128,7 +127,7 @@ const products = [
 const NavigationBar = ({ items, setItems }) => {
   return (
     <nav className="navigation">
-      <img src={"file4.png"} alt="icon" />
+      <img src="file4.png" alt="icon" />
       <SearchComponent items={items} setItems={setItems} />
     </nav>
   );
@@ -151,6 +150,7 @@ function SearchComponent({ items, setItems }) {
   return (
     <div className="search-bar">
       <input
+        id = "searchInput"
         type="text"
         placeholder="Search..."
         value={searchTerm}
@@ -277,7 +277,7 @@ const Sidebar = ({ item, setSelectedItem }) => {
 const Panner = () => {
   return (
     <div className="panner">
-      <img src={pannerImage} alt="pic" />
+      <img src="main-panel.png" alt="pic" />
     </div>
   );
 };
