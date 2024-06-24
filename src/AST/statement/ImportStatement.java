@@ -51,9 +51,11 @@ public class ImportStatement extends Statement {
 
     @Override
     public String convertToJs() {
+        StringBuilder jsBuilder = new StringBuilder();
         if (importDeclaration != null) {
             return importDeclaration.convertToJs();
         }
-        return "";
+
+        return jsBuilder.toString();
     }
 }

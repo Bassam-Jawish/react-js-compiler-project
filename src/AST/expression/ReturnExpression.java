@@ -74,14 +74,24 @@ public class ReturnExpression extends Expression {
         jsBuilder.append("return ");
 
         if (expression != null) {
-            jsBuilder.append(expression.convertToJs()).append(";");
-        } else if (htmlBody != null) {
-            jsBuilder.append("`")
-                    .append("\n")
-                    .append("\t".repeat(Space.currentValue))
-                    .append(htmlBody.convertToJs())
-                    .append("\n");
+            String str = expression.toString().substring(0,4);
 
+            if (!str.equals("Html")) {
+                jsBuilder.append(expression.convertToJs()).append(";");
+                Space.currentValue--;
+            }
+            else {
+                jsBuilder.append("`\n");
+                jsBuilder.append("\t".repeat(Space.currentValue));
+                jsBuilder.append(expression.convertToJs()).append("\n");
+
+                Space.currentValue--;
+                jsBuilder.append("\t".repeat(Space.currentValue)).append("`;");
+            }
+        } else if (htmlBody != null) {
+            jsBuilder.append("`\n");
+            jsBuilder.append("\t".repeat(Space.currentValue));
+            jsBuilder.append(htmlBody.convertToJs()).append("\n");
             Space.currentValue--;
             jsBuilder.append("\t".repeat(Space.currentValue)).append("`;");
         } else {

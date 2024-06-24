@@ -34,14 +34,17 @@ public class ParenthesizedExpression extends Expression{
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        if (Space.isInsideReturn) {
+        String str = expression.toString().substring(0,4);
+        if (Space.isInsideReturn || str.equals("Html")) {
             jsBuilder.append("`");
+            Space.isInsideReturn = true;
         }
         else {
             jsBuilder.append("(");
         }
         jsBuilder.append(expression.convertToJs());
-        if (Space.isInsideReturn) {
+        if (Space.isInsideReturn || str.equals("Html")) {
+            Space.isInsideReturn = false;
             jsBuilder.append("`");
         }
         else {

@@ -92,7 +92,7 @@ public class JsxAttribute {
 
         if (isHtmlTag) {
             if (!name.isEmpty() && objectDeclaration != null) {
-                jsBuilder.append(" ").append(name).append("=").append(objectDeclaration.convertToJs());
+                jsBuilder.append(" ").append(name).append("=").append("\"").append(objectDeclaration.convertToJs()).append("\"");
             } else if (!name.isEmpty() && string != null) {
                 if (string.equals("\"search-bar\"")) {
                     Space.isSearchFound = true;

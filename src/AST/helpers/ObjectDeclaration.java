@@ -55,11 +55,13 @@ public class ObjectDeclaration extends VariableType{
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
         Space.currentValue++;
-        String str = objectProperty.get(0).getExpression().toString().substring(0,5);
-        if (Space.isInsideReturn && (str.equals("Value") || str.equals("Membe")) && objectProperty.size() == 1 && Space.isNotComponentParametersCall) {
-            jsBuilder.append("${");
+        String str = objectProperty.get(0).getExpression().toString().substring(0,4);
+        if ((Space.isInsideReturn) && (str.equals("Valu") || str.equals("Memb")) && objectProperty.size() == 1 && Space.isNotComponentParametersCall) {
+            jsBuilder.append("$");
         }
-
+        if (Space.isNotComponentParametersCall && !str.equals("Func")) {
+            jsBuilder.append("{");
+        }
         for (int i = 0; i < objectProperty.size(); i++) {
             ObjectProperty objectPropertyy =  objectProperty.get(i);
             if (i == objectProperty.size() - 1) {
@@ -70,7 +72,7 @@ public class ObjectDeclaration extends VariableType{
             }
         }
         Space.currentValue--;
-        if (Space.isInsideReturn && (str.equals("Value") || str.equals("Membe")) && objectProperty.size() == 1 && Space.isNotComponentParametersCall) {
+        if (Space.isNotComponentParametersCall && !str.equals("Func")) {
             jsBuilder.append("}");
         }
         return jsBuilder.toString();
