@@ -100,9 +100,11 @@ public class HtmlBodyNestedDiv extends HtmlBody{
         }
         if (isHtmlTag) {
             stringBuilder.append("<").append(tagName);
+            Space.isJsxAttr = true;
             for (JsxAttribute attr : jsxAttributes) {
                 stringBuilder.append(attr.convertToJs(isHtmlTag));
             }
+            Space.isJsxAttr = false;
             stringBuilder.append(" />");
 
             Space.currentValue++;
@@ -111,7 +113,10 @@ public class HtmlBodyNestedDiv extends HtmlBody{
             }
             Space.currentValue--;
         } else {
-            stringBuilder.append("${").append(tagName).append("({ ");
+            stringBuilder.append("${").append(tagName).append("(");
+            if (!jsxAttributes.isEmpty()) {
+                stringBuilder.append("{ ");
+            }
             for (int i = 0; i < jsxAttributes.size(); i++) {
                 JsxAttribute attr = jsxAttributes.get(i);
                 stringBuilder.append(attr.convertToJs(isHtmlTag));
@@ -119,7 +124,10 @@ public class HtmlBodyNestedDiv extends HtmlBody{
                     stringBuilder.append(", ");
                 }
             }
-            stringBuilder.append(" })}");
+            if (!jsxAttributes.isEmpty()) {
+                stringBuilder.append(" }");
+            }
+            stringBuilder.append(")}");
         }
         Space.isNotComponentParametersCall = true;
         return stringBuilder.toString();

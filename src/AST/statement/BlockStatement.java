@@ -66,6 +66,7 @@ public class  BlockStatement extends Statement {
         jsBuilder.append("\t".repeat(Space.currentValue)).append("{\n");
 
         if (Space.isSearchFound && Space.isAppComponent) {
+            Space.currentValue++;
             jsBuilder.append("\t".repeat(Space.currentValue)).append("const searchInput = document.querySelector('#searchInput');\n");
             jsBuilder.append("\t".repeat(Space.currentValue)).append("if (searchInput) {\n");
             Space.currentValue++;
@@ -74,6 +75,7 @@ public class  BlockStatement extends Statement {
             jsBuilder.append("\t".repeat(Space.currentValue)).append("searchInput.setSelectionRange(length, length);\n");
             Space.currentValue--;
             jsBuilder.append("\t".repeat(Space.currentValue)).append("}\n");
+            Space.currentValue--;
         }
 
         Space.currentValue++;

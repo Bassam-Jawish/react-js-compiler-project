@@ -107,15 +107,25 @@ public class HtmlBodyWithDiv extends HtmlBody {
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
 
-        jsBuilder.append("<").append(openTagName);
-        for (JsxAttribute attr : jsxAttributes) {
-            jsBuilder.append(attr.convertToJs(true));
+        if (openTagName != null) {
+            jsBuilder.append("<").append(openTagName);
         }
-        jsBuilder.append(">\n");
+        if (!jsxAttributes.isEmpty()) {
+            Space.isJsxAttr = true;
+            for (JsxAttribute attr : jsxAttributes) {
+                jsBuilder.append(attr.convertToJs(true));
+            }
+            Space.isJsxAttr = false;
+        }
+        if (openTagName != null) {
+            jsBuilder.append(">\n");
+        }
         if (jsxContent != null) {
             jsBuilder.append(jsxContent.convertToJs());
         }
-        jsBuilder.append("\t".repeat(Space.currentValue)).append("</").append(closeTagName).append(">");
+        if (closeTagName != null) {
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("</").append(closeTagName).append(">");
+        }
         return jsBuilder.toString();
     }
 }

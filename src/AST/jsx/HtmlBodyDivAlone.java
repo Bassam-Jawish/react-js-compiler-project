@@ -75,8 +75,12 @@ public class HtmlBodyDivAlone extends HtmlBody{
     public String convertToJs() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<").append(tagName);
-        for (JsxAttribute attr : jsxAttributes) {
-            stringBuilder.append(" ").append(attr.convertToJs(true));
+        if (!jsxAttributes.isEmpty()) {
+            Space.isJsxAttr = true;
+            for (JsxAttribute attr : jsxAttributes) {
+                stringBuilder.append(" ").append(attr.convertToJs(true));
+            }
+            Space.isJsxAttr = false;
         }
         return stringBuilder.toString();
     }
