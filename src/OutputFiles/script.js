@@ -1,31 +1,15 @@
 // script.js
-function SearchComponent({items, setItems}) {
-	const Array Declaration: {
-		ValueExpression: {Type = Identifier, Value = searchTerm},
-		ValueExpression: {Type = Identifier, Value = setSearchTerm},
-	} = const [state, setState] = useState({Type = String, Value = ""});
-;
-
-	useEffect(() => {
-		if (!searchTerm) {
-{
-			setItems(products);
-		}}
-else {
-{
-			const results = items.filter((item) => item.name.toLowerCase();.includes(searchTerm.toLowerCase();););;
-
-			setItems(results);
-		}}
-
-	}, [
-	searchTerm,
-]);
-
+const ProductList = (setSelectedItem, items) => {
 	return `
-		<div class="search-bar">
-			<input id="searchInput" type="text" placeholder="Search..." value=searchTerm oninput=() => setSearchTerm(event.target.value); />				
+		<div class="product-list">
+			${items.map(((product,idx) => `<div key=${product.id} class="product-item" onclick=(() => setSelectedItem(items[${idx}]))()>
+				<img src=${product.image} alt=${product.name} class="product-image" />					
+				<p class="product-name">
+					${product.name}
+				</p>
+			</div>`)())}
 		</div>
 	`;
-}
+};
+
 document.querySelector("#app").innerHTML = App();

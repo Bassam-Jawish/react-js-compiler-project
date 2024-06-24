@@ -43,9 +43,6 @@ public class IfStatement extends Statement {
         return stringBuilder.toString();
     }
 
-    public String generate() {
-        return  "sdfd";
-    }
 
     public Expression getCondition() {
         return condition;
@@ -93,22 +90,21 @@ public class IfStatement extends Statement {
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
 
-        jsBuilder.append("if (").append(condition.convertToJs()).append(") {\n");
+        jsBuilder.append("if (").append(condition.convertToJs()).append(") \n");
         if (ifBlock != null) {
             jsBuilder.append(ifBlock.convertToJs());
         }
-        jsBuilder.append("}\n");
+        jsBuilder.append("\n");
 
         for (ElseIF elseIF : elseIfStatements) {
-            jsBuilder.append("else if (").append(elseIF.getExpression().convertToJs()).append(") {\n");
+            jsBuilder.append("else if (").append(elseIF.getExpression().convertToJs()).append(") \n");
             jsBuilder.append(elseIF.getStatements().convertToJs());
-            jsBuilder.append("}\n");
+            jsBuilder.append("\n");
         }
 
         if (elseStatement != null) {
-            jsBuilder.append("else {\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("else \n");
             jsBuilder.append(elseStatement.convertToJs());
-            jsBuilder.append("}\n");
         }
 
         return jsBuilder.toString();

@@ -54,9 +54,15 @@ public class ArrayAccess extends Statement {
         StringBuilder jsBuilder = new StringBuilder();
         jsBuilder.append(arrayName).append("[");
         if (index != null) {
+            if (Space.isInsideReturn) {
+                jsBuilder.append("${");
+            }
             jsBuilder.append(index.convertToJs());
+            if (Space.isInsideReturn) {
+                jsBuilder.append("}");
+            }
         }
-        jsBuilder.append("];");
+        jsBuilder.append("]");
         return jsBuilder.toString();
     }
 }

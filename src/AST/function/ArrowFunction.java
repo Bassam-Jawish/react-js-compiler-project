@@ -94,6 +94,9 @@ public class ArrowFunction extends   FunctionDeclaration{
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
+        if (Space.isInsideReturn) {
+            jsBuilder.append("(");
+        }
         jsBuilder.append("(");
         if (arrowParameters != null) {
             jsBuilder.append(arrowParameters.convertToJs());
@@ -103,6 +106,9 @@ public class ArrowFunction extends   FunctionDeclaration{
             jsBuilder.append(blockStatement.convertToJs());
         } else if (expression != null) {
             jsBuilder.append(expression.convertToJs());
+        }
+        if (Space.isInsideReturn) {
+            jsBuilder.append(")()");
         }
         return jsBuilder.toString();
     }

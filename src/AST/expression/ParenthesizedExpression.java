@@ -1,5 +1,7 @@
 package AST.expression;
 
+import AST.Space;
+
 public class ParenthesizedExpression extends Expression{
     private Expression expression;
 
@@ -31,6 +33,20 @@ public class ParenthesizedExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return "(" + expression.convertToJs() + ")";
+        StringBuilder jsBuilder = new StringBuilder();
+        if (Space.isInsideReturn) {
+            jsBuilder.append("`");
+        }
+        else {
+            jsBuilder.append("(");
+        }
+        jsBuilder.append(expression.convertToJs());
+        if (Space.isInsideReturn) {
+            jsBuilder.append("`");
+        }
+        else {
+            jsBuilder.append(")");
+        }
+        return jsBuilder.toString();
     }
 }

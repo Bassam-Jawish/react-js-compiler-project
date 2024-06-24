@@ -1,5 +1,7 @@
 package AST.function;
 
+import AST.Space;
+
 public class Value extends ArrowParameters{
 
     private String type;
@@ -49,8 +51,9 @@ public class Value extends ArrowParameters{
 
     @Override
     public String convertToJs() {
-        return switch (type) {
-            case "String" -> "\"" + value + "\"";
+        return value;
+        /*return switch (type) {
+            case "String" -> value;
             case "TemplateLiteral" -> "`" + value + "`";
             case "Number" -> value;
             case "Boolean" -> value.toLowerCase();
@@ -58,6 +61,6 @@ public class Value extends ArrowParameters{
             case "Undefined" -> "undefined";
             case "Identifier" -> value;
             default -> "";
-        };
+        };*/
     }
 }

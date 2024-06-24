@@ -95,7 +95,9 @@ public class HtmlBodyNestedDiv extends HtmlBody{
     public String convertToJs() {
         StringBuilder stringBuilder = new StringBuilder();
         boolean isHtmlTag = Character.isLowerCase(tagName.charAt(0));
-
+        if (!isHtmlTag) {
+            Space.isNotComponentParametersCall = false;
+        }
         if (isHtmlTag) {
             stringBuilder.append("<").append(tagName);
             for (JsxAttribute attr : jsxAttributes) {
@@ -119,7 +121,7 @@ public class HtmlBodyNestedDiv extends HtmlBody{
             }
             stringBuilder.append(" })}");
         }
-
+        Space.isNotComponentParametersCall = true;
         return stringBuilder.toString();
     }
 

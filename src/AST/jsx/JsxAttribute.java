@@ -86,11 +86,17 @@ public class JsxAttribute {
         if (name.equals("onChange")) {
             name = "oninput";
         }
+        if (name.equals("onClick")) {
+            name = "onclick";
+        }
 
         if (isHtmlTag) {
             if (!name.isEmpty() && objectDeclaration != null) {
                 jsBuilder.append(" ").append(name).append("=").append(objectDeclaration.convertToJs());
             } else if (!name.isEmpty() && string != null) {
+                if (string.equals("\"search-bar\"")) {
+                    Space.isSearchFound = true;
+                }
                 jsBuilder.append(" ").append(name).append("=").append(string);
             } else if (!name.isEmpty()) {
                 jsBuilder.append(" ").append(name);

@@ -50,9 +50,11 @@ public class JsxExpression{
 
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append("${");
         for (Expression expression : expressions) {
             jsBuilder.append(expression.convertToJs());
         }
+        jsBuilder.append("}");
         return jsBuilder.toString();
     }
 }

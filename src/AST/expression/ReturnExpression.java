@@ -68,6 +68,7 @@ public class ReturnExpression extends Expression {
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
+        Space.isInsideReturn = true;
         Space.currentValue++;
 
         jsBuilder.append("return ");
@@ -87,6 +88,7 @@ public class ReturnExpression extends Expression {
             Space.currentValue--;
             jsBuilder.append("\t".repeat(Space.currentValue)).append(";");
         }
+        Space.isInsideReturn = false;
         return jsBuilder.toString();
     }
 }

@@ -61,10 +61,23 @@ public class VariableDeclarationConst {
 
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append(variableType.toString());
+        variableType.convertToJs();
+        if (variableType.toString().equals("App")) {
+            Space.isAppComponent = true;
+        }
 
         if (expression != null) {
-            jsBuilder.append(" = ").append(expression.convertToJs());
+            jsBuilder.append(expression.convertToJs());
+        }
+
+        if (Space.isUseState) {
+            jsBuilder.append("window.").append(Space.valueUseState).append(" = ").append("window.").append(Space.valueUseState).append(" || ").append(Space.initialUseState).append(";\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("window.").append(Space.functionUseState).append(" = ").append("function ").append(Space.functionUseState).append("(").append(Space.functionUseState).append(")").append(" {").append("\n");
+            Space.currentValue++;
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("window.").append(Space.valueUseState).append(" = ").append(Space.functionUseState).append(";\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("document.querySelector(\"#app\").innerHTML = App();\n");
+            Space.currentValue--;
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("};\n");
         }
 
         return jsBuilder.toString();

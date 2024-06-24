@@ -2,6 +2,7 @@ package AST.expression;
 
 import AST.Space;
 
+
 public class MemberDotExpression extends Expression{
     private Expression leftExpression;
     private Expression rightExpression;
@@ -64,7 +65,9 @@ public class MemberDotExpression extends Expression{
 
     @Override
     public String convertToJs() {
+        StringBuilder stringBuilder = new StringBuilder();
         String operator = isOptionalChaining ? "?." : ".";
-        return leftExpression.convertToJs() + operator + rightExpression.convertToJs();
+        stringBuilder.append(leftExpression.convertToJs() + operator + rightExpression.convertToJs());
+        return stringBuilder.toString();
     }
 }

@@ -54,7 +54,7 @@ public class ElseIF extends Statement{
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append("else if (").append(expression.convertToJs()).append(") {\n");
+        jsBuilder.append("\t".repeat(Space.currentValue)).append("else if (").append(expression.convertToJs()).append(") {\n");
         jsBuilder.append(statements.convertToJs());
         jsBuilder.append("}\n");
         return jsBuilder.toString();

@@ -40,11 +40,6 @@ public class ArrayDeclaration extends VariableType{
     public String convertToHtml() {
         // Generate HTML from React JS array declaration
         StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<ul>\n");
-        for (Expression expression : expressions) {
-            htmlBuilder.append("\t<li>").append(expression).append("</li>\n");
-        }
-        htmlBuilder.append("</ul>");
         return htmlBuilder.toString();
     }
 
@@ -58,11 +53,17 @@ public class ArrayDeclaration extends VariableType{
     public String convertToJs() {
         // Generate JavaScript array declaration
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append("[\n");
-        for (Expression expression : expressions) {
-            jsBuilder.append("\t").append(expression.convertToJs()).append(",\n");
+        if (expressions.size() == 2) {
+            Space.valueUseState = expressions.get(0).convertToJs();
+            Space.functionUseState = expressions.get(1).convertToJs();
         }
-        jsBuilder.append("]");
+        else {
+            jsBuilder.append("[");
+            for (Expression expression : expressions) {
+                jsBuilder.append("\t").append(expression.convertToJs()).append(",");
+            }
+            jsBuilder.append("]");
+        }
         return jsBuilder.toString();
     }
 }

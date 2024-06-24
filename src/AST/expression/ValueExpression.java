@@ -1,5 +1,6 @@
 package AST.expression;
 
+import AST.Space;
 import AST.function.Value;
 import AST.helpers.VariableType;
 
@@ -35,6 +36,8 @@ public class ValueExpression extends Expression{
 
     @Override
     public String convertToJs() {
-        return valueDeclaration.getValue();
+        StringBuilder jsBuilder = new StringBuilder();
+        jsBuilder.append(valueDeclaration.convertToJs());
+        return jsBuilder.toString();
     }
 }

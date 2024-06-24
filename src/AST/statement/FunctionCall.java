@@ -3,6 +3,7 @@ package AST.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import AST.Space;
 import AST.expression.Expression;
 
 public class FunctionCall extends Statement{
@@ -59,7 +60,7 @@ public class FunctionCall extends Statement{
                 jsBuilder.append(", ");
             }
         }
-        jsBuilder.append(");");
+        jsBuilder.append(")");
         return jsBuilder.toString();
     }
 }

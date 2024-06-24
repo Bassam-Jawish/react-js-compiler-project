@@ -1,26 +1,19 @@
-function SearchComponent({ items, setItems }) {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    if (!searchTerm) {
-      setItems(products);
-    } else {
-      const results = items.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setItems(results);
-    }
-  }, [searchTerm]);
-  
+const ProductList = ({ setSelectedItem, items }) => {
   return (
-    <div className="search-bar">
-      <input
-        id = "searchInput"
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={() => setSearchTerm(event.target.value)}
-      />
+    <div className="product-list">
+      {items.map((product,idx) => (
+        <div
+          key={product.id}
+          className="product-item"
+          onClick={() => setSelectedItem(items[idx])}>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-image"
+          />
+          <p className="product-name">{product.name}</p>
+        </div>
+      ))}
     </div>
   );
-}
+};

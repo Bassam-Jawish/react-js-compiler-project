@@ -101,7 +101,12 @@ public class VariableStatement extends Statement {
 
         if (!variableConstDeclarations.isEmpty()) {
             for (VariableDeclarationConst variableDeclarationConst : variableConstDeclarations) {
-                jsBuilder.append("const ").append(variableDeclarationConst.convertToJs()).append(";\n");
+                jsBuilder.append(variableDeclarationConst.convertToJs());
+                if (!Space.isUseState) {
+                    jsBuilder.insert(0,"const " + variableDeclarationConst.getVariableType() + " = ");
+                    jsBuilder.append(";\n");
+                }
+                Space.isUseState = false;
             }
         }
         return jsBuilder.toString();

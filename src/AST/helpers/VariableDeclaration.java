@@ -48,7 +48,7 @@ public class VariableDeclaration {
 
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append(variableType.toString());
+        jsBuilder.append("\t".repeat(Space.currentValue)).append(variableType.convertToJs());
 
         if (expression != null) {
             jsBuilder.append(" = ").append(expression.convertToJs());

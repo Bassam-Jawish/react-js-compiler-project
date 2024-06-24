@@ -63,7 +63,19 @@ public class  BlockStatement extends Statement {
     @Override
     public String convertToJs() {
         StringBuilder jsBuilder = new StringBuilder();
-        jsBuilder.append("{\n");
+        jsBuilder.append("\t".repeat(Space.currentValue)).append("{\n");
+
+        if (Space.isSearchFound && Space.isAppComponent) {
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("const searchInput = document.querySelector('#searchInput');\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("if (searchInput) {\n");
+            Space.currentValue++;
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("const length = searchInput.value.length;\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("searchInput.focus();\n");
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("searchInput.setSelectionRange(length, length);\n");
+            Space.currentValue--;
+            jsBuilder.append("\t".repeat(Space.currentValue)).append("}\n");
+        }
+
         Space.currentValue++;
         for (Statement statement : statements) {
             jsBuilder.append("\t".repeat(Space.currentValue)).append(statement.convertToJs()).append("\n");

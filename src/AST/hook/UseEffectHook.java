@@ -1,5 +1,6 @@
 package AST.hook;
 
+import AST.Space;
 import AST.function.ArrowFunction;
 import AST.helpers.ArrayDeclaration;
 
@@ -51,12 +52,21 @@ public class UseEffectHook extends Hook{
 
     @Override
     public String convertToJs() {
-        StringBuilder js = new StringBuilder();
-        js.append("useEffect(").append(arrowFunction.convertToJs());
-        if (arrayDeclaration != null) {
-            js.append(", ").append(arrayDeclaration.convertToJs());
+        StringBuilder jsBuilder = new StringBuilder();
+        Space.isInsideUseEffect = true;
+        jsBuilder.append("addEventListener('input', (event) => ");
+        if (arrowFunction.getBlockStatement() != null) {
+            jsBuilder.append(arrowFunction.getBlockStatement().convertToJs());
         }
-        js.append(");\n");
-        return js.toString();
+        if (arrowFunction.getExpressionPar() != null) {
+            jsBuilder.append(arrowFunction.getExpressionPar().convertToJs());
+        }
+        if (!jsBuilder.isEmpty()) {
+            jsBuilder.deleteCharAt(jsBuilder.length() - 1);
+        }
+        jsBuilder.append("\t".repeat(Space.currentValue)).append("App();\n");
+        jsBuilder.append("\t".repeat(Space.currentValue)).append("});\n");
+        Space.isInsideUseEffect = false;
+        return jsBuilder.toString();
     }
 }
