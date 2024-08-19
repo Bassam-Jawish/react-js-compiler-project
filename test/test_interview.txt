@@ -146,7 +146,7 @@ function SearchComponent({ items, setItems }) {
       setItems(results);
     }
   }, [searchTerm]);
-  
+
   return (
     <div className="search-bar">
       <input
