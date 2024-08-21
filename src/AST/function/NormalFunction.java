@@ -4,6 +4,7 @@ import AST.Space;
 import AST.expression.Expression;
 import AST.statement.BlockStatement;
 import AST.statement.Statement;
+import ErrorHandling.SemanticCheck;
 
 import java.util.List;
 
@@ -76,6 +77,10 @@ public class NormalFunction extends FunctionDeclaration {
         stringBuilder.append("\t".repeat(Space.currentValue)).append("\n}");
 
         return stringBuilder.toString();
+    }
+
+    public void performSemanticChecks(SemanticCheck semanticCheck, int scopeId) {
+        semanticCheck.setOneDeclaredVariable(functionName, scopeId, "function");
     }
 
     @Override

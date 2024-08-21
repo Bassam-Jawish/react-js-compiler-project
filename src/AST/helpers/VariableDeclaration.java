@@ -2,6 +2,7 @@ package AST.helpers;
 
 import AST.Space;
 import AST.expression.Expression;
+import ErrorHandling.SemanticCheck;
 
 public class VariableDeclaration {
     private Expression expression;
@@ -10,7 +11,6 @@ public class VariableDeclaration {
     public VariableDeclaration() {
 
     }
-
 
     public Expression getExpression() {
         return expression;
@@ -44,6 +44,14 @@ public class VariableDeclaration {
         }
         stringBuilder.append("\t".repeat(Space.currentValue)).append("},\n");
         return stringBuilder.toString();
+    }
+
+    public void performSemanticCheck(SemanticCheck semanticCheck, int scopeId) {
+        if (variableType != null) {
+            String variableName = variableType.toString();
+            // Perform semantic checks
+            semanticCheck.setOneDeclaredVariable(variableName, scopeId, "var/let");
+        }
     }
 
     public String convertToJs() {

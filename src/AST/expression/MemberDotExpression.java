@@ -1,6 +1,7 @@
 package AST.expression;
 
 import AST.Space;
+import ErrorHandling.SemanticCheck;
 
 
 public class MemberDotExpression extends Expression{
@@ -51,6 +52,10 @@ public class MemberDotExpression extends Expression{
         stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
 
         return stringBuilder.toString();
+    }
+
+    public void performSemanticChecks(SemanticCheck semanticCheck, int scopeId, int line) {
+        semanticCheck.checkIfVariableUsedNotDefined(rightExpression.toString(), scopeId, line);
     }
 
     @Override

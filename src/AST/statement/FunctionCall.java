@@ -5,6 +5,7 @@ import java.util.List;
 
 import AST.Space;
 import AST.expression.Expression;
+import ErrorHandling.SemanticCheck;
 
 public class FunctionCall extends Statement{
     private String functionName;
@@ -38,6 +39,10 @@ public class FunctionCall extends Statement{
         }
         stringBuilder.append(")");
         return stringBuilder.toString();
+    }
+
+    public void performSemanticChecks(SemanticCheck semanticCheck, int scopeId, int line) {
+        semanticCheck.checkIfVariableUsedNotDefined(functionName, scopeId, line);
     }
 
     @Override

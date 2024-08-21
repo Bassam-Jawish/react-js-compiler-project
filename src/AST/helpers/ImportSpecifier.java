@@ -1,5 +1,7 @@
 package AST.helpers;
 
+import ErrorHandling.SemanticCheck;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -26,6 +28,24 @@ public class ImportSpecifier {
         return "ImportSpecifier: {" +
                 "Name = " +  (type != null ? type.toString() : "") +
                 '}';
+    }
+
+    public void validateImport(SemanticCheck semanticCheck, int symbolTableScopeId) {
+        if (type != null && !type.isEmpty()) {
+            String[] parts = type.split(" AS ");
+            String originalName = parts[0];
+            semanticCheck.setOneDeclaredVariable(originalName, symbolTableScopeId, "import");
+
+            if (originalName.equals("React")) {
+                semanticCheck.setReactImported(true);
+            } else if (originalName.equals("useState")) {
+                semanticCheck.setUseStateImported(true);
+            } else if (originalName.equals("useEffect")) {
+                semanticCheck.setUseEffectImported(true);
+            } else if (originalName.equals("useRef")) {
+                semanticCheck.setUseRefImported(true);
+            }
+        }
     }
 
     public String convertToHtml() {

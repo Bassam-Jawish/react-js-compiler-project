@@ -1,7 +1,9 @@
 package AST.jsx;
 
 import AST.Space;
+import AST.program.Program;
 import AST.statement.Statement;
+import ErrorHandling.SemanticCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +92,13 @@ public class HtmlBodyWithDiv extends HtmlBody {
         Space.currentValue--;
         stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
         return stringBuilder.toString();
+    }
+
+    public void validateTags(SemanticCheck semanticCheck, int lineNumber) {
+        String openTag = this.openTagName != null ? this.openTagName : "";
+        String closeTag = this.closeTagName != null ? this.closeTagName : "";
+
+        semanticCheck.checkIfTwoTagsAreNotEquals(openTag, closeTag, lineNumber);
     }
 
     @Override

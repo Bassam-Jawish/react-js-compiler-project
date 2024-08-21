@@ -1,6 +1,7 @@
 package AST.expression;
 
 import AST.Space;
+import ErrorHandling.SemanticCheck;
 
 public class EqualityExpression extends Expression{
     private Expression leftExpression;
@@ -48,6 +49,12 @@ public class EqualityExpression extends Expression{
         stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
 
         return stringBuilder.toString();
+    }
+
+    public void performSemanticCheck(SemanticCheck semanticCheck, String leftExpression ,int line) {
+        if (operator.equals("=")) {
+            semanticCheck.checkIfVariableIsConst(leftExpression, line);
+        }
     }
 
     @Override

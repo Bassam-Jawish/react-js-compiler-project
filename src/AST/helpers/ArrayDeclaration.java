@@ -3,10 +3,11 @@ package AST.helpers;
 import AST.Space;
 import AST.expression.Expression;
 import AST.statement.Statement;
+import ErrorHandling.SemanticCheck;
 
 import java.util.List;
 
-public class ArrayDeclaration extends VariableType{
+public class ArrayDeclaration extends VariableType {
 
     private List<Expression> expressions;
 
@@ -36,6 +37,10 @@ public class ArrayDeclaration extends VariableType{
         return stringBuilder.toString();
     }
 
+    public void performSemanticChecks(SemanticCheck semanticCheck, String expressionGetText, int scopeId) {
+        semanticCheck.setOneDeclaredVariable(expressionGetText, scopeId, "array");
+    }
+
     @Override
     public String convertToHtml() {
         // Generate HTML from React JS array declaration
@@ -56,8 +61,7 @@ public class ArrayDeclaration extends VariableType{
         if (expressions.size() == 2) {
             Space.valueUseState = expressions.get(0).convertToJs();
             Space.functionUseState = expressions.get(1).convertToJs();
-        }
-        else {
+        } else {
             jsBuilder.append("[");
             for (Expression expression : expressions) {
                 jsBuilder.append("\t").append(expression.convertToJs()).append(",");

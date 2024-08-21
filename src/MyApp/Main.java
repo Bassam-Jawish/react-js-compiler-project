@@ -25,7 +25,7 @@ public class Main {
             // String path = "test/test2.txt";
             // String path = "test/test3.txt";
             // String path = "test/test4.txt";
-            String path = "test/test_interview.txt";
+             String path = "test/test_interview.txt";
             // String path = "test/useState.txt";
             // String path = "test/useEffect.txt";
             // String path = "test/useReference.txt";
@@ -41,7 +41,7 @@ public class Main {
             // String path = "test/error_handling_test/checkIfTwoTagsAreNotEqualsTest.txt";
             // String path = "test/error_handling_test/checkHooksTopLevelTest.txt";
             // String path = "test/error_handling_test/checkIfHooksAreImportedTest.txt";
-
+            // String path = "test/help.txt";
             CharStream input = fromFileName(path);
             ReactjsLexer lexer = new ReactjsLexer(input);
             CommonTokenStream token = new CommonTokenStream(lexer);

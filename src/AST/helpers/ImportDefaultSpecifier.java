@@ -1,6 +1,7 @@
 package AST.helpers;
 
 import AST.Space;
+import ErrorHandling.SemanticCheck;
 
 public class ImportDefaultSpecifier extends ImportDeclaration {
 
@@ -30,6 +31,16 @@ public class ImportDefaultSpecifier extends ImportDeclaration {
         return stringBuilder.toString();
     }
 
+    public void validateImport(SemanticCheck semanticCheck, int symbolTableScopeId) {
+        if (type != null) {
+            if (type.equals("react")) {
+                semanticCheck.setReactImported(true);
+            } else if (!type.isEmpty()) {
+                semanticCheck.setOneDeclaredVariable(type, symbolTableScopeId, "import");
+            }
+        }
+    }
+
     @Override
     public String convertToHtml() {
         StringBuilder htmlBuilder = new StringBuilder();
@@ -47,4 +58,7 @@ public class ImportDefaultSpecifier extends ImportDeclaration {
         StringBuilder jsBuilder = new StringBuilder();
         return jsBuilder.toString();
     }
+
+
+
 }

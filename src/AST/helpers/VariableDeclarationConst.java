@@ -2,6 +2,7 @@ package AST.helpers;
 
 import AST.Space;
 import AST.expression.Expression;
+import ErrorHandling.SemanticCheck;
 
 public class VariableDeclarationConst {
 
@@ -47,6 +48,13 @@ public class VariableDeclarationConst {
         }
         stringBuilder.append("\t".repeat(Space.currentValue)).append("},\n");
         return stringBuilder.toString();
+    }
+
+    public void performSemanticCheck(SemanticCheck semanticCheck, int scopeId) {
+        if (variableType != null) {
+            String variableName = variableType.toString();
+            semanticCheck.setOneDeclaredVariable(variableName, scopeId, "const");
+        }
     }
 
     public String convertToHtml() {

@@ -1,6 +1,7 @@
 package AST.helpers;
 
 import AST.Space;
+import ErrorHandling.SemanticCheck;
 
 public class ImportNamespaceSpecifier extends ImportDeclaration{
 
@@ -27,6 +28,12 @@ private String type;
         Space.currentValue--;
         stringBuilder.append("\t".repeat(Space.currentValue)).append("}");
         return stringBuilder.toString();
+    }
+
+    public void validateImport(SemanticCheck semanticCheck, int symbolTableScopeId) {
+        if (type != null && !type.isEmpty()) {
+            semanticCheck.setOneDeclaredVariable(type, symbolTableScopeId, "import");
+        }
     }
 
     @Override

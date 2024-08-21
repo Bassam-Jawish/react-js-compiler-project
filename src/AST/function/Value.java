@@ -1,6 +1,7 @@
 package AST.function;
 
 import AST.Space;
+import ErrorHandling.SemanticCheck;
 
 public class Value extends ArrowParameters{
 
@@ -37,6 +38,12 @@ public class Value extends ArrowParameters{
             }
         }
         return "{Type = " + type + ", Value = " + value + "}";
+    }
+
+    public void validate(SemanticCheck semanticCheck, int scopeId, int lineNumber) {
+        if ("Identifier".equals(type)) {
+            semanticCheck.checkIfVariableUsedNotDefined(value, scopeId, lineNumber);
+        }
     }
 
     @Override

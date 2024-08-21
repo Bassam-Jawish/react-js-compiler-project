@@ -3,6 +3,7 @@ package AST.helpers;
 import AST.Space;
 import AST.expression.Expression;
 import AST.statement.Statement;
+import ErrorHandling.SemanticCheck;
 
 public class ObjectProperty {
 
@@ -44,6 +45,10 @@ public class ObjectProperty {
         }
         stringBuilder.append("}");
         return stringBuilder.toString();
+    }
+
+    public void performSemanticCheck(SemanticCheck semanticCheck, String expressionText, int scopeId) {
+        semanticCheck.setOneDeclaredVariable(expressionText, scopeId, "object");
     }
 
     public String convertToHtml() {
