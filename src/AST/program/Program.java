@@ -1,8 +1,11 @@
 package AST.program;
 
 import AST.Space;
+import AST.helpers.*;
+import AST.jsx.HtmlBodyWithDiv;
 import AST.statement.ImportStatement;
 import AST.statement.Statement;
+import ErrorHandling.SemanticCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.nio.file.Paths;
 
 public class Program {
     private List<Statement> statements;
+
+    private SemanticCheck semanticCheck;
 
     public Program() {
         this.statements = new ArrayList<>();
@@ -35,6 +40,16 @@ public class Program {
 
             stringBuilder.append(statement.toString()).append("\n");
         }
+
+        if (false) {
+            validateTags(1);
+            validateImport(1);
+            performSemanticCheckConst(1);
+            performSemanticCheck(1);
+            performSemanticCheckObject("", 1);
+            performSemanticCheckArray("", 1);
+        }
+
         return stringBuilder.toString();
     }
 
@@ -293,4 +308,35 @@ public class Program {
         jsBuilder.append("document.querySelector(\"#app\").innerHTML = App();");
         return jsBuilder.toString();
     }
+
+    public void validateTags(int lineNumber) {
+        HtmlBodyWithDiv htmlBodyWithDiv = new HtmlBodyWithDiv();
+        htmlBodyWithDiv.validateTags(semanticCheck, lineNumber);
+    }
+
+    public void validateImport(int symbolTableScopeId) {
+        ImportDefaultSpecifier importDefaultSpecifier = new ImportDefaultSpecifier();
+        importDefaultSpecifier.validateImport(semanticCheck, symbolTableScopeId);
+    }
+
+    public void performSemanticCheckConst(int scopeId) {
+        VariableDeclarationConst variableDeclarationConst = new VariableDeclarationConst();
+        variableDeclarationConst.performSemanticCheck(semanticCheck, scopeId);
+    }
+
+    public void performSemanticCheck(int scopeId) {
+        VariableDeclaration variableDeclaration = new VariableDeclaration();
+        variableDeclaration.performSemanticCheck(semanticCheck, scopeId);
+    }
+
+    public void performSemanticCheckObject(String expressionText, int scopeId) {
+        ObjectProperty objectProperty = new ObjectProperty();
+        objectProperty.performSemanticCheck(semanticCheck, expressionText, scopeId);
+    }
+
+    public void performSemanticCheckArray(String expressionText, int scopeId) {
+        ArrayDeclaration arrayDeclaration = new ArrayDeclaration();
+        arrayDeclaration.performSemanticChecks(semanticCheck, expressionText, scopeId);
+    }
+
 }

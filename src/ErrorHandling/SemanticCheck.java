@@ -45,6 +45,7 @@ public class SemanticCheck {
 
     // checkIfVariableUsedNotDefined
 
+    // <variableName@scopId,type>
     private Map<String, String> declaredVariables = new HashMap<>();
     {
         declaredVariables.put("map@0", "function");

@@ -431,7 +431,6 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         //semanticCheck.setOneDeclaredVariable(variableDeclarationConst.getVariableType().toString(), symbolTable.getScopeId(), "const");
         variableDeclarationConst.performSemanticCheck(semanticCheck, symbolTable.getScopeId());
 
-
         // Symbol Table 2
         s.addVariable(variableDeclarationConst.getVariableType().toString(), variableDeclarationConst.getExpression().toString());
         return variableDeclarationConst;

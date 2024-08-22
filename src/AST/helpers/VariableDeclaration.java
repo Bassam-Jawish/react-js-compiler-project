@@ -49,7 +49,6 @@ public class VariableDeclaration {
     public void performSemanticCheck(SemanticCheck semanticCheck, int scopeId) {
         if (variableType != null) {
             String variableName = variableType.toString();
-            // Perform semantic checks
             semanticCheck.setOneDeclaredVariable(variableName, scopeId, "var/let");
         }
     }
